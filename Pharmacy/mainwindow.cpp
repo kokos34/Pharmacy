@@ -10,8 +10,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QPixmap bkgnd("C:\\Users\\epiokok\\Pharmacy\\background.png");
+    QPixmap bkgnd(":/new/prefix1/bkgrnd.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::KeepAspectRatio);
+
     QPalette palette;
     palette.setBrush(QPalette::Background, bkgnd);
     this->setPalette(palette);
@@ -39,7 +40,7 @@ void MainWindow::substituteIconsIntoButtons()
     // Read from db button
     QToolButton* readButton = new QToolButton(this);
     readButton->setGeometry(QRect(QPoint(50, 100), QSize(46, 45)));
-    readButton->setIcon(QIcon("C:\\Users\\epiokok\\Pharmacy\\read.png"));
+    readButton->setIcon(QIcon(":/new/prefix1/read.png"));
     readButton->setIconSize(QSize(46, 45));
 
     connect(readButton, SIGNAL (released()), this, SLOT (handleButton()));
@@ -47,7 +48,7 @@ void MainWindow::substituteIconsIntoButtons()
     // Display information about medicine
     QToolButton* infoButton = new QToolButton(this);
     infoButton->setGeometry(QRect(QPoint(300, 100), QSize(45, 45)));
-    infoButton->setIcon(QIcon("C:\\Users\\epiokok\\Pharmacy\\info.png"));
+    infoButton->setIcon(QIcon(":/new/prefix1/info.png"));
     infoButton->setIconSize(QSize(45, 45));
 
     connect(infoButton, SIGNAL (released()), this, SLOT (handleButton()));

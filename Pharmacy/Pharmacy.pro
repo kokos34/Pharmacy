@@ -28,8 +28,14 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h
 
-FORMS    +=
+FORMS    += \
+    mainwindow.ui
 
 CONFIG += mobility
 MOBILITY = 
+
+DISTFILES +=
+
+RESOURCES += \
+    icons.qrc
 
