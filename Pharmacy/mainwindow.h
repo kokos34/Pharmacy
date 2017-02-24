@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 
+#include <QToolButton>
+#include <QLabel>
+
 namespace Ui {
 class MainWindow;
 }
@@ -24,6 +27,12 @@ private slots:
 private:
     Ui::MainWindow *ui;
     void substituteIconsIntoButtons();
+
+     QLabel* readLabel;
+     QLabel* infoLabel;
+
+     QToolButton* readButton;
+     QToolButton* infoButton;
 };
 
 #endif // MAINWINDOW_H
