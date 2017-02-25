@@ -4,7 +4,13 @@
 #include <QMainWindow>
 
 #include <QToolButton>
+#include <QPushButton>
 #include <QLabel>
+
+#include "pharmacieshandler.h"
+#include "pharmaciesform.h"
+
+#include <iostream>
 
 namespace Ui {
 class MainWindow;
@@ -20,19 +26,21 @@ public:
 
 private slots:
     void on_readFromDBButton_clicked();
-    void handleButton();
+    void pharmaciesButtonClicked();
 
     void on_MainWindow_iconSizeChanged(const QSize &iconSize);
 
 private:
     Ui::MainWindow *ui;
     void substituteIconsIntoButtons();
+    QString pathToDB = "/home/kokos/Documents/pharmacy/Pharmacy/my_db.db";
+    bool isDBInitialized = false;
 
      QLabel* readLabel;
      QLabel* infoLabel;
 
-     QToolButton* readButton;
-     QToolButton* infoButton;
+     QPushButton* readButton;
+     QPushButton* infoButton;
 };
 
 #endif // MAINWINDOW_H

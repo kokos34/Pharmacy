@@ -25,13 +25,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    databasehandler.cpp
+    databasehandler.cpp \
+    pharmacieshandler.cpp \
+    pharmaciesform.cpp
 
 HEADERS  += mainwindow.h \
-    databasehandler.h
+    databasehandler.h \
+    pharmacieshandler.h \
+    pharmaciesform.h
 
 FORMS    += \
-    mainwindow.ui
+    mainwindow.ui \
+    pharmaciesform.ui
 
 CONFIG += mobility
 MOBILITY = 
