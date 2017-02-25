@@ -8,6 +8,8 @@ PharmaciesHandler::PharmaciesHandler()
 PharmaciesHandler::PharmaciesHandler(const QString& path) : DatabaseHandler(path)
 {
     createTablePharmacies();
+<<<<<<< HEAD
+=======
     populateTable();
 }
 
@@ -52,4 +54,5 @@ bool PharmaciesHandler::openInsertFile(const QString& path)
     }
 
     return true;
+>>>>>>> populated pharmacy table
 }

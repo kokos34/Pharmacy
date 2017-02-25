@@ -20,7 +20,7 @@ void DatabaseHandler::createTablePharmacies()
 {
     QSqlQuery query;
     bool success = query.exec("create table if not exists pharmacies "
-              "(id integer primary key autoincrement, "
+              "(id integer primary key, "
               "ph_name varchar(30), "
               "ph_address varchar(30), "
               "ph_opening_hours varchar(5), "

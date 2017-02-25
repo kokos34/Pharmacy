@@ -1,0 +1,2 @@
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Rosa', 'Tatrzanska 63', '8-24', '6400188', '-', 'apteka calodobowa');
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Pigulka', 'Rokicinska 341', '9-19', '6488290', '-', '-');
