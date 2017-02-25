@@ -2,6 +2,7 @@
 #define PHARMACIESHANDLER_H
 
 #include "databasehandler.h"
+#include <vector>
 
 class PharmaciesHandler : public DatabaseHandler
 {
@@ -10,6 +11,8 @@ public:
     PharmaciesHandler(const QString& path);
 private:
     void populateTable();
+    bool openInsertFile(const QString& path);
+    std::vector<QString> listOfInserts;
 };
 
 #endif // PHARMACIESHANDLER_H
