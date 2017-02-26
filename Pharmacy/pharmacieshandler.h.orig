@@ -2,21 +2,23 @@
 #define PHARMACIESHANDLER_H
 
 #include "databasehandler.h"
+<<<<<<< HEAD
+=======
 #include <vector>
-
-using namespace::std;
+>>>>>>> populated pharmacy table
 
 class PharmaciesHandler : public DatabaseHandler
 {
 public:
     PharmaciesHandler();
     PharmaciesHandler(const QString& path);
-    static vector<vector<QString>> getListOfPharmacies();
 private:
     void populateTable();
+<<<<<<< HEAD
+=======
     bool openInsertFile(const QString& path);
-    vector<QString> listOfInserts;
-    static int sqlSize(QSqlQuery query);
+    std::vector<QString> listOfInserts;
+>>>>>>> populated pharmacy table
 };
 
 #endif // PHARMACIESHANDLER_H

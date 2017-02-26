@@ -24,6 +24,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+protected:
+    void resizeEvent(QResizeEvent* evt) override;
+
 private slots:
     void on_readFromDBButton_clicked();
     void pharmaciesButtonClicked();
@@ -41,6 +44,8 @@ private:
 
      QPushButton* readButton;
      QPushButton* infoButton;
+
+     bool isAndroid = true;
 };
 
 #endif // MAINWINDOW_H

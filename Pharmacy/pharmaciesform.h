@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "pharmacieshandler.h"
+
 namespace Ui {
 class PharmaciesForm;
 }
@@ -17,6 +19,8 @@ public:
 
 private:
     Ui::PharmaciesForm *ui;
+    bool isAndroid = true;
+    void pushPharmaciesToTable();
 };
 
 #endif // PHARMACIESFORM_H

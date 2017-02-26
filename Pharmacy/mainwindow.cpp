@@ -9,8 +9,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->centralWidget->setAutoFillBackground(true);
 
+//    if(isAndroid)
+//        this->setWindowState(Qt::WindowFullScreen);
+
     QPixmap bkgnd(":/new/prefix1/bkgrnd.png");
-    bkgnd = bkgnd.scaled(this->size(), Qt::KeepAspectRatio);
+    bkgnd = bkgnd.scaled(this->size(),
+                         Qt::IgnoreAspectRatio,
+                         Qt::SmoothTransformation);
 
     QPalette palette;
 
@@ -87,4 +92,17 @@ void MainWindow::pharmaciesButtonClicked()
 void MainWindow::on_MainWindow_iconSizeChanged(const QSize &iconSize)
 {
 
+}
+
+void MainWindow::resizeEvent(QResizeEvent* evt)
+{
+    QPixmap bkgnd(":/new/prefix1/bkgrnd.png");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+    QPalette palette;
+
+    palette.setBrush(QPalette::Background, bkgnd);
+    this->setPalette(palette);
+
+    QMainWindow::resizeEvent(evt); // call inherited implementation
 }

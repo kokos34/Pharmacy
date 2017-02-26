@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>PharmaciesForm</class>
  <widget class="QDialog" name="PharmaciesForm">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -10,8 +13,17 @@
     <height>465</height>
    </rect>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>388</width>
+    <height>465</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Pharmacies information</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
   </property>
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">

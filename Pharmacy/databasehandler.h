@@ -15,7 +15,7 @@ public:
 
     void createTablePharmacies();
     void createTableMedicines();
-private:
+protected:
     QSqlDatabase pharmacies_db;
 };
 
