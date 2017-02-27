@@ -9,17 +9,29 @@ DatabaseHandler::DatabaseHandler(const QString& path)
         qDebug() << "Error connection to DB failed";
     else
         qDebug() << "Successfully connected to database";
+<<<<<<< HEAD
+
+    createTablePharmacies();
+    createTableMedicines();
+=======
 }
 
 DatabaseHandler::DatabaseHandler()
 {
     qDebug() << "Database already exists, proceeding...";
+>>>>>>> afc72dc461585d7b2d64bdb98fb5ee71afccf5dc
 }
 
 void DatabaseHandler::createTablePharmacies()
 {
     QSqlQuery query;
     bool success = query.exec("create table if not exists pharmacies "
+<<<<<<< HEAD
+              "(id integer primary key, "
+              "ph_name varchar(30), "
+              "ph_address varchar(30), "
+              "ph_opening_hours varchar(5))");
+=======
               "(id integer primary key autoincrement, "
               "ph_name varchar(30), "
               "ph_address varchar(30), "
@@ -27,11 +39,16 @@ void DatabaseHandler::createTablePharmacies()
               "ph_telephone varchar(9), "
               "ph_email varchar(25), "
               "ph_note varchar(50))");
+>>>>>>> afc72dc461585d7b2d64bdb98fb5ee71afccf5dc
 
     if(success)
         qDebug() << "Successfully created pharmacies table";
     else
+<<<<<<< HEAD
+        qDebug() << "Failed to create pharmacies table or table exists";
+=======
         qDebug() << "Failed to create pharmacies table";
+>>>>>>> afc72dc461585d7b2d64bdb98fb5ee71afccf5dc
 }
 
 void DatabaseHandler::createTableMedicines()
@@ -47,5 +64,9 @@ void DatabaseHandler::createTableMedicines()
     if(success)
         qDebug() << "Successfully created medicines table";
     else
+<<<<<<< HEAD
+        qDebug() << "Failed to create medicines table or table exists";
+=======
         qDebug() << "Failed to create medicines table";
+>>>>>>> afc72dc461585d7b2d64bdb98fb5ee71afccf5dc
 }

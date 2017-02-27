@@ -8,12 +8,15 @@
 class DatabaseHandler
 {
 public:
+    // If database was not created earlier
     DatabaseHandler(const QString& path);
-    //void executeQuery(const QString& queryText);
-private:
-    QSqlDatabase pharmacies_db;
+    // If database exists
+    DatabaseHandler();
+
     void createTablePharmacies();
     void createTableMedicines();
+protected:
+    QSqlDatabase pharmacies_db;
 };
 
 #endif // DATABASEHANDLER_H
