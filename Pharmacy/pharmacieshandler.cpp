@@ -7,7 +7,10 @@ PharmaciesHandler::PharmaciesHandler()
 
 PharmaciesHandler::PharmaciesHandler(const QString& path) : DatabaseHandler(path)
 {
-    // temporary workaround
+    // Temporary workaround
+    // Since the table doesnt get deleted, every time that the program is ran
+    // the table has to be deleted and created from the scratch
+
     QSqlQuery query;
     bool executed = query.exec("drop table pharmacies");
 
@@ -23,12 +26,11 @@ PharmaciesHandler::PharmaciesHandler(const QString& path) : DatabaseHandler(path
 
 void PharmaciesHandler::populateTable()
 {
-    //if(!
-            openInsertFile("C:\\Users\\epiokok\\Pharmacy\\Pharmacy\\insertstatements.txt");
-//    {
-//        qDebug() << "Failed to populate table";
-//        return;
-//    }
+    if(!openInsertFile(":/new/prefix1/insertstatements.txt"))
+    {
+        qDebug() << "Failed to populate table";
+        return;
+    }
 
     qDebug() << "populate table:";
 
@@ -90,8 +92,6 @@ vector<vector<QString>> PharmaciesHandler::getListOfPharmacies()
 
     vector<vector<QString>> listOfPharmacies;
 
-    qDebug() << "size = " << listOfPharmacies.size();
-
     unsigned int rows = sqlSize(query);
     unsigned int rowCounter = 0;
 
@@ -105,16 +105,11 @@ vector<vector<QString>> PharmaciesHandler::getListOfPharmacies()
         {
             QString currentElement = query.value(i).toString();
             currentRow.push_back(currentElement);
-
-            qDebug() << currentElement;
         }
         listOfPharmacies.push_back(currentRow);
 
         rowCounter++;
     }
-
-   qDebug() << "size = " << listOfPharmacies.size();
-
     return listOfPharmacies;
 }
 

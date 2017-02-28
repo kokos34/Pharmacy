@@ -47,3 +47,12 @@ void PharmaciesForm::prepareTableView()
     ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
+
+void PharmaciesForm::on_moreInfo_clicked()
+{
+    PharmaciesMoreInfo* infoProvider = new PharmaciesMoreInfo();
+    infoProvider->setModal(true);
+    infoProvider->passIndex(ui->tableWidget->selectionModel()->selectedRows().at(0).row());
+    infoProvider->displayInfo();
+    infoProvider->exec();
+}

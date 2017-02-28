@@ -3,5 +3,6 @@
         <file>bkgrnd.png</file>
         <file>read.png</file>
         <file>info.png</file>
+        <file>insertstatements.txt</file>
     </qresource>
 </RCC>

@@ -27,16 +27,19 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     databasehandler.cpp \
     pharmacieshandler.cpp \
-    pharmaciesform.cpp
+    pharmaciesform.cpp \
+    pharmaciesmoreinfo.cpp
 
 HEADERS  += mainwindow.h \
     databasehandler.h \
     pharmacieshandler.h \
-    pharmaciesform.h
+    pharmaciesform.h \
+    pharmaciesmoreinfo.h
 
 FORMS    += \
     mainwindow.ui \
-    pharmaciesform.ui
+    pharmaciesform.ui \
+    pharmaciesmoreinfo.ui
 
 CONFIG += mobility
 MOBILITY = 
