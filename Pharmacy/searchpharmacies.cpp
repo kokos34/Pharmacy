@@ -12,7 +12,7 @@ SearchPharmacies::SearchPharmacies(QWidget *parent) :
 
     ui->comboBox_2->setVisible(false);
 
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(findPhrase()));
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(findThePhrase()));
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(accept()));
 
     //176x162
@@ -40,7 +40,7 @@ void SearchPharmacies::on_pushButton_clicked()
         if(columnIndex!=0)
         {
             int result = 1;
-            if(result = QString::compare(dbRecords[i][columnIndex], searchPhrase, Qt::CaseInsensitive) == 0)
+            if(result = QString::compare(dbRecords[i][columnIndex-1], searchPhrase, Qt::CaseInsensitive) == 0)
             {
                 foundIndexes.push_back(i);
             }

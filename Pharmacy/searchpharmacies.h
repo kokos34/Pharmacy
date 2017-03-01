@@ -16,12 +16,14 @@ class SearchPharmacies : public QDialog
 public:
     explicit SearchPharmacies(QWidget *parent = 0);
     ~SearchPharmacies();
-    vector<int> findThePhrase();
     QString myVal() const {  }
 
 private slots:
     void on_comboBox_2_currentIndexChanged(int index);
     void on_pushButton_clicked();
+
+public slots:
+    vector<int> findThePhrase();
 
 private:
     Ui::SearchPharmacies *ui;

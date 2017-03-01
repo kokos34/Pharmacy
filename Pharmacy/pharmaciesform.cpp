@@ -61,7 +61,7 @@ void PharmaciesForm::on_moreInfo_clicked()
 
 void PharmaciesForm::on_pushButton_clicked()
 {
-    static int rowCounter = 0;
+//    static int rowCounter = 0;
 
     spDialog = new SearchPharmacies(this);
 
@@ -73,16 +73,16 @@ void PharmaciesForm::on_pushButton_clicked()
 
         if(result.size() == 0)
         {
-            QMessageBox::information(this, tr("Error"), tr("Cannot find the searched prhase"));
+            QMessageBox::information(this, tr("Error"), tr("Cannot find the searched phrase"));
             return;
         }
 
 //        if(rowCounter < result.size())
-            ui->tableWidget->selectRow(result[rowCounter++]);
-//        else
-//            rowCounter = 0;
+            ui->tableWidget->selectRow(result[0]);
+        /*else
+            rowCounter = 0;*/
     }
-
+    delete spDialog;//->close();
 }
 
 void PharmaciesForm::receivePhraseAndMarkRows(vector<int> result)
