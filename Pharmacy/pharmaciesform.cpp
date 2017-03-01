@@ -9,6 +9,8 @@ PharmaciesForm::PharmaciesForm(QWidget *parent) :
 
     prepareTableView();
     pushPharmaciesToTable();
+
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()));
 }
 
 PharmaciesForm::~PharmaciesForm()
@@ -55,4 +57,35 @@ void PharmaciesForm::on_moreInfo_clicked()
     infoProvider->passIndex(ui->tableWidget->selectionModel()->selectedRows().at(0).row());
     infoProvider->displayInfo();
     infoProvider->exec();
+}
+
+void PharmaciesForm::on_pushButton_clicked()
+{
+    static int rowCounter = 0;
+
+    spDialog = new SearchPharmacies(this);
+
+    spDialog->show();
+
+    if(spDialog->exec() == QDialog::Accepted)
+    {
+        vector<int> result = spDialog->findThePhrase();
+
+        if(result.size() == 0)
+        {
+            QMessageBox::information(this, tr("Error"), tr("Cannot find the searched prhase"));
+            return;
+        }
+
+//        if(rowCounter < result.size())
+            ui->tableWidget->selectRow(result[rowCounter++]);
+//        else
+//            rowCounter = 0;
+    }
+
+}
+
+void PharmaciesForm::receivePhraseAndMarkRows(vector<int> result)
+{
+    ui->tableWidget->selectRow(result[0]);
 }

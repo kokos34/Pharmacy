@@ -28,7 +28,6 @@ protected:
     void resizeEvent(QResizeEvent* evt) override;
 
 private slots:
-    void on_readFromDBButton_clicked();
     void pharmaciesButtonClicked();
 
     void on_MainWindow_iconSizeChanged(const QSize &iconSize);

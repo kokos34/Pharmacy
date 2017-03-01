@@ -36,11 +36,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_readFromDBButton_clicked()
-{
-    std::cout << " clicked button " << std::endl;
-}
-
 void MainWindow::substituteIconsIntoButtons()
 {
     // Read from db button
@@ -87,11 +82,6 @@ void MainWindow::pharmaciesButtonClicked()
     PharmaciesForm phDialog;
     phDialog.setModal(true);
     phDialog.exec();
-}
-
-void MainWindow::on_MainWindow_iconSizeChanged(const QSize &iconSize)
-{
-
 }
 
 void MainWindow::resizeEvent(QResizeEvent* evt)

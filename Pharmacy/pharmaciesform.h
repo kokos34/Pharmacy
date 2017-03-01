@@ -2,9 +2,11 @@
 #define PHARMACIESFORM_H
 
 #include <QDialog>
+#include <QMessageBox>
 
 #include "pharmacieshandler.h"
 #include "pharmaciesmoreinfo.h"
+#include "searchpharmacies.h"
 
 namespace Ui {
 class PharmaciesForm;
@@ -20,9 +22,14 @@ public:
 
 private slots:
     void on_moreInfo_clicked();
+    void receivePhraseAndMarkRows(vector<int>);
+
+public slots:
+    void on_pushButton_clicked();
 
 private:
     Ui::PharmaciesForm *ui;
+    SearchPharmacies* spDialog;
     bool isAndroid = true;
     void pushPharmaciesToTable();
     void prepareTableView();
