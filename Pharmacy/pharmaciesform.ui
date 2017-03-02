@@ -57,14 +57,27 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>150</x>
      <y>430</y>
-     <width>111</width>
-     <height>23</height>
+     <width>101</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="text">
     <string>Search</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="sortButton">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>430</y>
+     <width>101</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sort</string>
    </property>
   </widget>
  </widget>

@@ -7,6 +7,7 @@
 #include "pharmacieshandler.h"
 #include "pharmaciesmoreinfo.h"
 #include "searchpharmacies.h"
+#include "sortpharmacies.h"
 
 namespace Ui {
 class PharmaciesForm;
@@ -26,10 +27,12 @@ private slots:
 
 public slots:
     void on_pushButton_clicked();
+    void sortPharmacies();
 
 private:
     Ui::PharmaciesForm *ui;
     SearchPharmacies* spDialog;
+    SortPharmacies* sortDialog;
     bool isAndroid = true;
     void pushPharmaciesToTable();
     void prepareTableView();

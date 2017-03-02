@@ -11,6 +11,7 @@ PharmaciesForm::PharmaciesForm(QWidget *parent) :
     pushPharmaciesToTable();
 
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()));
+    connect(ui->sortButton, SIGNAL(clicked()), this, SLOT(sortPharmacies()));
 }
 
 PharmaciesForm::~PharmaciesForm()
@@ -88,4 +89,17 @@ void PharmaciesForm::on_pushButton_clicked()
 void PharmaciesForm::receivePhraseAndMarkRows(vector<int> result)
 {
     ui->tableWidget->selectRow(result[0]);
+}
+
+void PharmaciesForm::sortPharmacies()
+{
+    sortDialog = new SortPharmacies(this);
+    sortDialog->show();
+
+    if(sortDialog->exec() == QDialog::Accepted)
+    {
+        int sortByRow = sortDialog->getMarkedIndex();
+
+        ui->tableWidget->sortByColumn(sortByRow);
+    }
 }
