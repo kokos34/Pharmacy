@@ -17,6 +17,9 @@ public:
     explicit MedicinesForm(QWidget *parent = 0);
     ~MedicinesForm();
 
+private slots:
+    void markPerscriptions();
+
 private:
     Ui::MedicinesForm *ui;
     void pushMedicinesToTable();

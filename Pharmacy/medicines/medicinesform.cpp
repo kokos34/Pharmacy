@@ -9,6 +9,8 @@ MedicinesForm::MedicinesForm(QWidget *parent) :
 
     prepareTableView();
     pushMedicinesToTable();
+
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(markPerscriptions()));
 }
 
 MedicinesForm::~MedicinesForm()
@@ -34,17 +36,28 @@ void MedicinesForm::pushMedicinesToTable()
 
 void MedicinesForm::prepareTableView()
 {
-
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget->horizontalHeader()->setStyleSheet("font-weight: bold; color: green");
 
     ui->tableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
 
-//    ui->tableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Name"));
-//    ui->tableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Address"));
-//    ui->tableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Opening hours"));
-
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+}
+
+void MedicinesForm::markPerscriptions()
+{
+    ui->tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+
+    int rows = ui->tableWidget->rowCount();
+    const int perscColumn = 2;
+
+    for(int i = 0; i < rows; i++)
+    {
+        int compare = 1;
+        if(( compare = QString::compare(ui->tableWidget->item(i, perscColumn)->text(), "yes", Qt::CaseInsensitive)) == 0)
+            ui->tableWidget->selectRow(i);
+    }
+    ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 }
