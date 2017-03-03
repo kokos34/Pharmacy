@@ -6,22 +6,42 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>388</width>
+    <width>570</width>
     <height>465</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Information about medicines</string>
   </property>
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>371</width>
-     <height>381</height>
+     <width>551</width>
+     <height>401</height>
     </rect>
    </property>
+   <column>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Quantity in bundle</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Requires perscription</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Additional information</string>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>

@@ -9,6 +9,8 @@
 
 #include "pharmacieshandler.h"
 #include "pharmaciesform.h"
+#include "medicines/medicineshandler.h"
+#include "medicines/medicinesform.h"
 
 #include <iostream>
 
@@ -29,6 +31,7 @@ protected:
 
 private slots:
     void pharmaciesButtonClicked();
+    void medicinesButtonClicked();
 
     void on_MainWindow_iconSizeChanged(const QSize &iconSize);
 

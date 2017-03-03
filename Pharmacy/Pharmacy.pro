@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     pharmaciesmoreinfo.cpp \
     searchpharmacies.cpp \
     medicines/medicinesform.cpp \
-    sortpharmacies.cpp
+    sortpharmacies.cpp \
+    medicines/medicineshandler.cpp
 
 HEADERS  += mainwindow.h \
     databasehandler.h \
@@ -40,7 +41,8 @@ HEADERS  += mainwindow.h \
     pharmaciesmoreinfo.h \
     searchpharmacies.h \
     medicines/medicinesform.h \
-    sortpharmacies.h
+    sortpharmacies.h \
+    medicines/medicineshandler.h
 
 FORMS    += \
     mainwindow.ui \

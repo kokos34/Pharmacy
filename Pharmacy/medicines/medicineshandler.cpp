@@ -1,32 +1,33 @@
-#include "pharmacieshandler.h"
+#include "medicineshandler.h"
 
-PharmaciesHandler::PharmaciesHandler()
+MedicinesHandler::MedicinesHandler()
 {
 
 }
 
-PharmaciesHandler::PharmaciesHandler(const QString& path) : DatabaseHandler(path)
+MedicinesHandler::MedicinesHandler(const QString& dbPath) : DatabaseHandler(dbPath)
 {
     // Temporary workaround
     // Since the table doesnt get deleted, every time that the program is ran
     // the table has to be deleted and created from the scratch
 
     QSqlQuery query;
-    bool executed = query.exec("drop table pharmacies");
+    bool executed = query.exec("drop table medicines");
 
     if(!executed)
         qDebug() << "not executed";
     else
         qDebug() << "executed";
 
-    createTablePharmacies();
+    createTableMedicines();
 
     populateTable();
 }
 
-void PharmaciesHandler::populateTable()
+
+void MedicinesHandler::populateTable()
 {
-    if(!openInsertFile(":/new/prefix1/insertstatements.txt"))
+    if(!openInsertFile())
     {
         qDebug() << "Failed to populate table";
         return;
@@ -46,12 +47,12 @@ void PharmaciesHandler::populateTable()
     }
 
     if(allInsertsSucceeded)
-        qDebug() << "Successfully populated pharmacies table";
+        qDebug() << "Successfully populated medicines table";
     else
-        qDebug() << "Failed to populate pharmacies table";
+        qDebug() << "Failed to populate medicines table";
 }
 
-bool PharmaciesHandler::openInsertFile(const QString& path)
+bool MedicinesHandler::openInsertFile()
 {
     QFile* insertFile = new QFile(path);
 
@@ -82,17 +83,18 @@ bool PharmaciesHandler::openInsertFile(const QString& path)
     return true;
 }
 
-vector<vector<QString>> PharmaciesHandler::getListOfPharmacies()
+vector<vector<QString>> MedicinesHandler::getListOfMedicines()
 {
     QSqlQuery query;
-    bool success = query.exec("select ph_name, ph_address, ph_opening_hours, ph_telephone, ph_email, ph_note from pharmacies");
+
+    bool success = query.exec("select med_name, med_quantity_in_bundle, med_for_perscription, med_note from medicines");
 
     if(!success)
         qDebug() << "Failed to select";
 
-    vector<vector<QString>> listOfPharmacies;
+    vector<vector<QString>> listOfMedicines;
 
-    unsigned int rows = sqlSize(query);
+    unsigned int rows = DatabaseHandler::sqlSize(query);
     unsigned int rowCounter = 0;
 
     while(rowCounter < rows)
@@ -101,14 +103,14 @@ vector<vector<QString>> PharmaciesHandler::getListOfPharmacies()
 
         vector<QString> currentRow;
 
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i < 4; i++)
         {
             QString currentElement = query.value(i).toString();
             currentRow.push_back(currentElement);
         }
-        listOfPharmacies.push_back(currentRow);
+        listOfMedicines.push_back(currentRow);
 
         rowCounter++;
     }
-    return listOfPharmacies;
+    return listOfMedicines;
 }

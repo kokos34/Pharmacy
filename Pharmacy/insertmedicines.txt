@@ -1,0 +1,5 @@
+insert into medicines('med_name', 'med_quantity_in_bundle', 'med_for_perscription', 'med_note') values('Litocid', '100', 'yes', '-');
+insert into medicines('med_name', 'med_quantity_in_bundle', 'med_for_perscription', 'med_note') values('Aspirin', '10', 'no', '-');
+insert into medicines('med_name', 'med_quantity_in_bundle', 'med_for_perscription', 'med_note') values('Neomycin', '50', 'yes', '-');
+insert into medicines('med_name', 'med_quantity_in_bundle', 'med_for_perscription', 'med_note') values('Seboradin', '-', 'no', '100ml tubes');
+insert into medicines('med_name', 'med_quantity_in_bundle', 'med_for_perscription', 'med_note') values('Flonidan', '10', 'yes', 'small bundles without perscription');
