@@ -30,7 +30,7 @@ vector<int> SearchPharmacies::findThePhrase()
 
 void SearchPharmacies::on_pushButton_clicked()
 {
-    int columnIndex = ui->comboBox->currentIndex();
+    unsigned int columnIndex = ui->comboBox->currentIndex();
     searchPhrase = ui->textEdit->toPlainText();
 
     vector<vector<QString>> dbRecords = PharmaciesHandler::getListOfPharmacies();
@@ -40,17 +40,17 @@ void SearchPharmacies::on_pushButton_clicked()
         if(columnIndex!=0)
         {
             int result = 1;
-            if(result = QString::compare(dbRecords[i][columnIndex-1], searchPhrase, Qt::CaseInsensitive) == 0)
+            if((result = QString::compare(dbRecords[i][columnIndex-1], searchPhrase, Qt::CaseInsensitive)) == 0)
             {
                 foundIndexes.push_back(i);
             }
         }
         else
         {
-            for(int column = 0; column < dbRecords[0].size(); column++)
+            for(unsigned int column = 0; column < dbRecords[0].size(); column++)
             {
                 int result = 1;
-                if(result = QString::compare(dbRecords[i][column], searchPhrase, Qt::CaseInsensitive) == 0)
+                if((result = QString::compare(dbRecords[i][column], searchPhrase, Qt::CaseInsensitive)) == 0)
                 {
                     foundIndexes.push_back(i);
                 }
@@ -61,5 +61,5 @@ void SearchPharmacies::on_pushButton_clicked()
 
 void SearchPharmacies::on_comboBox_2_currentIndexChanged(int index)
 {
-    //emit this->on_pushButton_clicked();
+
 }

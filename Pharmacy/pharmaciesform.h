@@ -3,10 +3,12 @@
 
 #include <QDialog>
 #include <QMessageBox>
+#include <QDateTime>
 
 #include "pharmacieshandler.h"
 #include "pharmaciesmoreinfo.h"
 #include "searchpharmacies.h"
+#include "sortpharmacies.h"
 
 namespace Ui {
 class PharmaciesForm;
@@ -24,12 +26,18 @@ private slots:
     void on_moreInfo_clicked();
     void receivePhraseAndMarkRows(vector<int>);
 
+    void on_pushButton_2_clicked();
+
+    void on_markOpen_clicked();
+
 public slots:
     void on_pushButton_clicked();
+    void sortPharmacies();
 
 private:
     Ui::PharmaciesForm *ui;
     SearchPharmacies* spDialog;
+    SortPharmacies* sortDialog;
     bool isAndroid = true;
     void pushPharmaciesToTable();
     void prepareTableView();

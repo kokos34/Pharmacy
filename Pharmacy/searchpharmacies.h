@@ -16,7 +16,6 @@ class SearchPharmacies : public QDialog
 public:
     explicit SearchPharmacies(QWidget *parent = 0);
     ~SearchPharmacies();
-    QString myVal() const {  }
 
 private slots:
     void on_comboBox_2_currentIndexChanged(int index);

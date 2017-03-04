@@ -11,6 +11,7 @@ PharmaciesForm::PharmaciesForm(QWidget *parent) :
     pushPharmaciesToTable();
 
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()));
+    connect(ui->sortButton, SIGNAL(clicked()), this, SLOT(sortPharmacies()));
 }
 
 PharmaciesForm::~PharmaciesForm()
@@ -88,4 +89,68 @@ void PharmaciesForm::on_pushButton_clicked()
 void PharmaciesForm::receivePhraseAndMarkRows(vector<int> result)
 {
     ui->tableWidget->selectRow(result[0]);
+}
+
+void PharmaciesForm::sortPharmacies()
+{
+    sortDialog = new SortPharmacies(this);
+    sortDialog->show();
+
+    if(sortDialog->exec() == QDialog::Accepted)
+    {
+        int sortByRow = sortDialog->getMarkedIndex();
+
+        ui->tableWidget->sortByColumn(sortByRow, Qt::AscendingOrder);
+    }
+}
+
+void PharmaciesForm::on_pushButton_2_clicked()
+{
+
+}
+
+void PharmaciesForm::on_markOpen_clicked()
+{
+    QTime timeMeasurement = QTime::currentTime();
+    int currentHour = timeMeasurement.hour();
+
+    if(currentHour == 0)
+        currentHour = 24;
+
+    ui->tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+
+    for(int i = 0; i < ui->tableWidget->rowCount(); i++)
+    {
+        QString currentHours = ui->tableWidget->itemAt(QPoint(i, 2))->text();
+        qDebug() << currentHours;
+
+        QString openingHour = "";
+        QString closingHour = "";
+        int index = 0;
+
+        QChar dash('-');
+
+        while(currentHours.at(index)!=dash)
+            openingHour.append(currentHours.at(index++));
+
+        int indexOfDash = index+1;
+
+        while(indexOfDash < currentHours.size())
+            closingHour.append(currentHours.at(indexOfDash++));
+
+        qDebug() << "opening " << openingHour << " closing " << closingHour;
+
+        bool ok = false;
+
+        int opening = openingHour.toInt(&ok, 10);
+        int closing = closingHour.toInt(&ok, 10);
+
+        if(ok)
+        {
+            if(currentHour >= opening && currentHour < closing)
+                ui->tableWidget->selectRow(i);
+        }
+        else
+            qDebug() << "Something went wrong with string-int conversion";
+    }
 }
