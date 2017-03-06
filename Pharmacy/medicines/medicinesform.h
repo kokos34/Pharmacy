@@ -2,8 +2,10 @@
 #define MEDICINESFORM_H
 
 #include <QDialog>
+#include <QMessageBox>
 
 #include "medicineshandler.h"
+#include "searchmedicines.h"
 
 namespace Ui {
 class MedicinesForm;
@@ -17,11 +19,16 @@ public:
     explicit MedicinesForm(QWidget *parent = 0);
     ~MedicinesForm();
 
+public slots:
+    void findClicked();
+
 private slots:
     void markPerscriptions();
 
 private:
     Ui::MedicinesForm *ui;
+    SearchMedicines* searchDialog;
+    void cleanSelection();
     void pushMedicinesToTable();
     void prepareTableView();
 };

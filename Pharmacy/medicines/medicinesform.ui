@@ -68,6 +68,19 @@
     <string>Mark medicines on perscription</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="searchButton">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>425</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Search</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

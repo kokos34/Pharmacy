@@ -11,6 +11,7 @@ MedicinesForm::MedicinesForm(QWidget *parent) :
     pushMedicinesToTable();
 
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(markPerscriptions()));
+    connect(ui->searchButton, SIGNAL(clicked()), this, SLOT(findClicked()));
 }
 
 MedicinesForm::~MedicinesForm()
@@ -48,6 +49,8 @@ void MedicinesForm::prepareTableView()
 
 void MedicinesForm::markPerscriptions()
 {
+    cleanSelection();
+
     ui->tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
 
     int rows = ui->tableWidget->rowCount();
@@ -60,4 +63,62 @@ void MedicinesForm::markPerscriptions()
             ui->tableWidget->selectRow(i);
     }
     ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+}
+
+void MedicinesForm::findClicked()
+{
+    searchDialog = new SearchMedicines(this);
+
+    searchDialog->show();
+
+    int searchByColumn;
+    QString phrase;
+
+    cleanSelection();
+
+    if(searchDialog->exec() == QDialog::Accepted)
+    {
+        QMap<QString, int> result = searchDialog->getResultMap();
+
+        searchByColumn = result.values().at(0);
+
+        //Since we do not search by each row we need to omit the 2 rows between
+        // name and note
+        if(searchByColumn == 1)
+            searchByColumn = 3;
+
+        phrase = result.keys().at(0);
+
+        ui->tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+
+        bool phraseFound = false;
+
+        for(int i = 0; i < ui->tableWidget->rowCount(); i++)
+        {
+            if(ui->tableWidget->item(i, searchByColumn)->text() == phrase)
+            {
+                phraseFound = true;
+                ui->tableWidget->selectRow(i);
+            }
+        }
+
+        ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+
+        if(!phraseFound)
+            QMessageBox::information(this, tr("Note"), tr("No phrase found matching criteria") );
+    }
+
+    delete searchDialog;
+}
+
+void MedicinesForm::cleanSelection()
+{
+    for(int i = 0; i < ui->tableWidget->rowCount(); i++)
+    {
+        for(int j = 0; j < ui->tableWidget->columnCount(); j++)
+        {
+            QModelIndex id = ui->tableWidget->model()->index(i, j, QModelIndex());
+            ui->tableWidget->selectionModel()->select(id, QItemSelectionModel::Deselect);
+        }
+    }
 }
