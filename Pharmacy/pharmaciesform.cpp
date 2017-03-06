@@ -54,6 +54,14 @@ void PharmaciesForm::prepareTableView()
 void PharmaciesForm::on_moreInfo_clicked()
 {
     PharmaciesMoreInfo* infoProvider = new PharmaciesMoreInfo();
+    QItemSelectionModel* selectedRows = ui->tableWidget->selectionModel();
+
+    if(!selectedRows->hasSelection())
+    {
+        QMessageBox::information(this, tr("Error"), tr("No rows are selected!"));
+        return;
+    }
+
     infoProvider->setModal(true);
     infoProvider->passIndex(ui->tableWidget->selectionModel()->selectedRows().at(0).row());
     infoProvider->displayInfo();
