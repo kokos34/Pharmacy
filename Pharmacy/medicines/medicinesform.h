@@ -28,6 +28,7 @@ private slots:
 private:
     Ui::MedicinesForm *ui;
     SearchMedicines* searchDialog;
+
     void cleanSelection();
     void pushMedicinesToTable();
     void prepareTableView();

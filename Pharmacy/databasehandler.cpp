@@ -16,6 +16,12 @@ DatabaseHandler::DatabaseHandler()
     qDebug() << "Database already exists, proceeding...";
 }
 
+DatabaseHandler::~DatabaseHandler()
+{
+    // Remove db file? To be defined
+    pharmacies_db.close();
+}
+
 void DatabaseHandler::createTablePharmacies()
 {
     QSqlQuery query;

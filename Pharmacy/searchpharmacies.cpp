@@ -40,20 +40,18 @@ void SearchPharmacies::on_pushButton_clicked()
         if(columnIndex!=0)
         {
             int result = 1;
-            if(result = QString::compare(dbRecords[i][columnIndex-1], searchPhrase, Qt::CaseInsensitive) == 0)
-            {
+
+            if((result = QString::compare(dbRecords[i][columnIndex-1], searchPhrase, Qt::CaseInsensitive)) == 0)
                 foundIndexes.push_back(i);
-            }
         }
         else
         {
             for(int column = 0; column < dbRecords[0].size(); column++)
             {
                 int result = 1;
-                if(result = QString::compare(dbRecords[i][column], searchPhrase, Qt::CaseInsensitive) == 0)
-                {
+
+                if((result = QString::compare(dbRecords[i][column], searchPhrase, Qt::CaseInsensitive)) == 0)
                     foundIndexes.push_back(i);
-                }
             }
         }
     }

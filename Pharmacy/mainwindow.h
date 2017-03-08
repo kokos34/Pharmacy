@@ -33,8 +33,6 @@ private slots:
     void pharmaciesButtonClicked();
     void medicinesButtonClicked();
 
-    void on_MainWindow_iconSizeChanged(const QSize &iconSize);
-
 private:
     Ui::MainWindow *ui;
     void substituteIconsIntoButtons();
@@ -47,6 +45,8 @@ private:
 
      QPushButton* readButton;
      QPushButton* infoButton;
+
+     PharmaciesHandler* pharmaciesDB;
 
      bool isAndroid = true;
 };

@@ -16,6 +16,9 @@ PharmaciesForm::PharmaciesForm(QWidget *parent) :
 
 PharmaciesForm::~PharmaciesForm()
 {
+    delete spDialog;
+    delete sortDialog;
+
     delete ui;
 }
 
@@ -66,6 +69,9 @@ void PharmaciesForm::on_moreInfo_clicked()
     infoProvider->passIndex(ui->tableWidget->selectionModel()->selectedRows().at(0).row());
     infoProvider->displayInfo();
     infoProvider->exec();
+
+    // This might cause a problem!
+    delete selectedRows;
 }
 
 void PharmaciesForm::on_pushButton_clicked()

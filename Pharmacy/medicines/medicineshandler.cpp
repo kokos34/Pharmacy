@@ -20,10 +20,8 @@ MedicinesHandler::MedicinesHandler(const QString& dbPath) : DatabaseHandler(dbPa
         qDebug() << "executed";
 
     createTableMedicines();
-
     populateTable();
 }
-
 
 void MedicinesHandler::populateTable()
 {

@@ -61,8 +61,6 @@ bool PharmaciesHandler::openInsertFile(const QString& path)
         return false;
     }
 
-    qDebug() << "opened file";
-
     QTextStream input(insertFile);
 
     int counter = 0;
@@ -75,8 +73,7 @@ bool PharmaciesHandler::openInsertFile(const QString& path)
         counter++;
     }
 
-    qDebug() << counter;
-
+    insertFile->close();
     delete insertFile;
 
     return true;
