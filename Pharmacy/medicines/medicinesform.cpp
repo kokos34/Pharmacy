@@ -12,6 +12,8 @@ MedicinesForm::MedicinesForm(QWidget *parent) :
 
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(markPerscriptions()));
     connect(ui->searchButton, SIGNAL(clicked()), this, SLOT(findClicked()));
+
+    connect(ui->displayImage, SIGNAL(clicked()), this, SLOT(displayImage()));
 }
 
 MedicinesForm::~MedicinesForm()
@@ -121,4 +123,30 @@ void MedicinesForm::cleanSelection()
             ui->tableWidget->selectionModel()->select(id, QItemSelectionModel::Deselect);
         }
     }
+}
+
+void MedicinesForm::displayImage()
+{
+    /*if(!ui->tableWidget->selectionModel()->hasSelection())
+        return;
+
+    int markedPharmacyRowIndex = ui->tableWidget->selectionModel()->selectedRows().at(0).row();
+    QString markedPharmacyName = ui->tableWidget->item(markedPharmacyRowIndex, 0)->text();
+
+    QByteArray arrayPicture = MedicinesHandler::getMedicinePicture(markedPharmacyName);
+    QPixmap pixmap = QPixmap();
+
+    pixmap.loadFromData(arrayPicture);*/
+
+//    QPixmap pixmap(":/")
+    QPixmap pixmap(":/new/prefix1/no_picture.png");
+
+    QGraphicsScene scene;
+    QGraphicsView view(&scene);
+    QGraphicsPixmapItem item(pixmap);
+
+    scene.addItem(&item);
+    view.show();
+    view.setVisible(true);
+    scene.update();
 }

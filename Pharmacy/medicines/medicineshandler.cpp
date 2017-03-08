@@ -21,6 +21,7 @@ MedicinesHandler::MedicinesHandler(const QString& dbPath) : DatabaseHandler(dbPa
 
     createTableMedicines();
     populateTable();
+//    loadImages();
 }
 
 void MedicinesHandler::populateTable()
@@ -111,4 +112,41 @@ vector<vector<QString>> MedicinesHandler::getListOfMedicines()
         rowCounter++;
     }
     return listOfMedicines;
+}
+
+void MedicinesHandler::loadImages()
+{
+    QByteArray inByteArray;
+    QBuffer inBuffer(&inByteArray);
+    QPixmap no_image(":/new/prefix1/no_picture.png");
+
+    inBuffer.open(QIODevice::WriteOnly);
+    no_image.save(&inBuffer, "PNG");
+
+
+    QSqlQuery query;
+    query.prepare("UPDATE medicines SET med_picture=:imageData WHERE id > 0");
+    query.bindValue(":imageDat", inByteArray);
+
+    if(!query.exec())
+        qDebug() << "Failed to insert images into db";
+}
+
+QByteArray MedicinesHandler::getMedicinePicture(QString medicineName)
+{
+    QSqlQuery query;
+    query.prepare("SELECT med_picture FROM medicines WHERE med_name=:name");
+    query.bindValue(":name", medicineName);
+
+    if(!query.exec())
+    {
+        qDebug() << "Could not display picture";
+        return QByteArray("");
+    }
+    else
+    {
+        query.first();
+        QByteArray byteArray = query.value(0).toByteArray();
+        return byteArray;
+    }
 }

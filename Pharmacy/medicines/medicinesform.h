@@ -3,6 +3,9 @@
 
 #include <QDialog>
 #include <QMessageBox>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QGraphicsPixmapItem>
 
 #include "medicineshandler.h"
 #include "searchmedicines.h"
@@ -24,6 +27,7 @@ public slots:
 
 private slots:
     void markPerscriptions();
+    void displayImage();
 
 private:
     Ui::MedicinesForm *ui;

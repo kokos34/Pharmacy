@@ -48,7 +48,8 @@ void DatabaseHandler::createTableMedicines()
               "med_name varchar(30) not null, "
               "med_quantity_in_bundle integer not null, "
               "med_for_perscription integer not null, "
-              "med_note varchar(50))");
+              "med_note varchar(50),"
+              "med_picture BLOB)");
 
     if(success)
         qDebug() << "Successfully created medicines table";

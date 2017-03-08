@@ -16,9 +16,6 @@ PharmaciesForm::PharmaciesForm(QWidget *parent) :
 
 PharmaciesForm::~PharmaciesForm()
 {
-    delete spDialog;
-    delete sortDialog;
-
     delete ui;
 }
 
@@ -116,4 +113,6 @@ void PharmaciesForm::sortPharmacies()
 
         ui->tableWidget->sortByColumn(sortByRow);
     }
+
+    delete sortDialog;
 }

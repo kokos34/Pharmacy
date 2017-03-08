@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     medicines/medicinesform.cpp \
     sortpharmacies.cpp \
     medicines/medicineshandler.cpp \
-    medicines/searchmedicines.cpp
+    medicines/searchmedicines.cpp \
+    medicines/displaymedicine.cpp
 
 HEADERS  += mainwindow.h \
     databasehandler.h \
@@ -44,7 +45,8 @@ HEADERS  += mainwindow.h \
     medicines/medicinesform.h \
     sortpharmacies.h \
     medicines/medicineshandler.h \
-    medicines/searchmedicines.h
+    medicines/searchmedicines.h \
+    medicines/displaymedicine.h
 
 FORMS    += \
     mainwindow.ui \
@@ -53,7 +55,8 @@ FORMS    += \
     searchpharmacies.ui \
     medicines/medicinesform.ui \
     sortpharmacies.ui \
-    medicines/searchmedicines.ui
+    medicines/searchmedicines.ui \
+    medicines/displaymedicine.ui
 
 CONFIG += mobility
 MOBILITY = 
