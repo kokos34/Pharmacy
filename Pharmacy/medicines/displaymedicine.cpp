@@ -12,3 +12,10 @@ DisplayMedicine::~DisplayMedicine()
 {
     delete ui;
 }
+
+void DisplayMedicine::passPixmapToDisplay(QPixmap map)
+{
+    ui->label->setPixmap(map);
+    ui->label->setScaledContents(true);
+    ui->label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+}

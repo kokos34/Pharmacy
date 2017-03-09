@@ -9,6 +9,7 @@
 
 #include "medicineshandler.h"
 #include "searchmedicines.h"
+#include "displaymedicine.h"
 
 namespace Ui {
 class MedicinesForm;
@@ -24,14 +25,15 @@ public:
 
 public slots:
     void findClicked();
+    void displayImage();
 
 private slots:
     void markPerscriptions();
-    void displayImage();
 
 private:
     Ui::MedicinesForm *ui;
     SearchMedicines* searchDialog;
+    DisplayMedicine* medicineDialog;
 
     void cleanSelection();
     void pushMedicinesToTable();

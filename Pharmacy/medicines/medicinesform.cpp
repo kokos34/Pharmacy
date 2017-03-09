@@ -127,26 +127,33 @@ void MedicinesForm::cleanSelection()
 
 void MedicinesForm::displayImage()
 {
-    /*if(!ui->tableWidget->selectionModel()->hasSelection())
+    if(!ui->tableWidget->selectionModel()->hasSelection())
         return;
 
     int markedPharmacyRowIndex = ui->tableWidget->selectionModel()->selectedRows().at(0).row();
     QString markedPharmacyName = ui->tableWidget->item(markedPharmacyRowIndex, 0)->text();
 
-    QByteArray arrayPicture = MedicinesHandler::getMedicinePicture(markedPharmacyName);
-    QPixmap pixmap = QPixmap();
+    qDebug() << "name : " << markedPharmacyName;
 
-    pixmap.loadFromData(arrayPicture);*/
+    QByteArray* arrayPicture = MedicinesHandler::getMedicinePicture(markedPharmacyName);
 
-//    QPixmap pixmap(":/")
-    QPixmap pixmap(":/new/prefix1/no_picture.png");
+    if(arrayPicture->isEmpty())
+        qDebug() << "empty pixmap";
 
-    QGraphicsScene scene;
-    QGraphicsView view(&scene);
-    QGraphicsPixmapItem item(pixmap);
+    QPixmap pixmap = QPixmap();//":/new/prefix1/no_picture.png");
 
-    scene.addItem(&item);
-    view.show();
-    view.setVisible(true);
-    scene.update();
+    pixmap.loadFromData(*arrayPicture);
+
+
+//    pixmap.scaledToHeight(300, Qt::SmoothTransformation);
+//    pixmap.scaledToWidth(400, Qt::SmoothTransformation);
+
+    medicineDialog = new DisplayMedicine(this);
+
+    medicineDialog->passPixmapToDisplay(pixmap);
+
+    medicineDialog->setModal(true);
+    medicineDialog->exec();
+
+    delete medicineDialog;
 }

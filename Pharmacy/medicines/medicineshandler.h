@@ -16,7 +16,7 @@ public:
     MedicinesHandler();
     MedicinesHandler(const QString& dbPath);
     static vector<vector<QString>> getListOfMedicines();
-    static QByteArray getMedicinePicture(QString name);
+    static QByteArray* getMedicinePicture(QString name);
 
 private:
     void populateTable();
@@ -25,6 +25,7 @@ private:
 
     vector<QString> listOfInserts;
     const QString& path = ":/new/prefix1/insertmedicines.txt";
+    static QByteArray* picture;
 };
 
 #endif // MEDICINESHANDLER_H

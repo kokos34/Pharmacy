@@ -15,6 +15,8 @@ public:
     explicit DisplayMedicine(QWidget *parent = 0);
     ~DisplayMedicine();
 
+    void passPixmapToDisplay(QPixmap);
+
 private:
     Ui::DisplayMedicine *ui;
 };
