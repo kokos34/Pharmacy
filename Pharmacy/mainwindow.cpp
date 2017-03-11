@@ -67,8 +67,6 @@ void MainWindow::substituteIconsIntoButtons()
 
 void MainWindow::pharmaciesButtonClicked()
 {
-    PharmaciesHandler* pharmaciesDB;
-
     if(!isDBInitialized)
     {
         pharmaciesDB = new PharmaciesHandler(pathToDB);

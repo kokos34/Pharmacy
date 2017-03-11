@@ -10,7 +10,10 @@ MedicinesForm::MedicinesForm(QWidget *parent) :
     prepareTableView();
     pushMedicinesToTable();
 
-    connect(ui->perscribed, SIGNAL(clicked()), this, SLOT(markPerscribed()));
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(markPerscriptions()));
+    connect(ui->searchButton, SIGNAL(clicked()), this, SLOT(findClicked()));
+
+    connect(ui->displayImage, SIGNAL(clicked()), this, SLOT(displayImage()));
 }
 
 MedicinesForm::~MedicinesForm()
@@ -36,7 +39,6 @@ void MedicinesForm::pushMedicinesToTable()
 
 void MedicinesForm::prepareTableView()
 {
-
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget->horizontalHeader()->setStyleSheet("font-weight: bold; color: green");
 
@@ -46,18 +48,111 @@ void MedicinesForm::prepareTableView()
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
-void MedicinesForm::markPerscribed()
+void MedicinesForm::markPerscriptions()
 {
+    cleanSelection();
+
     ui->tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
 
-    for(int i = 0; i < ui->tableWidget->rowCount(); i++)
-    {
-        QString currentItem = ui->tableWidget->item(i, 2)->text();
-        int compare = 1;
+    int rows = ui->tableWidget->rowCount();
+    const int perscColumn = 2;
 
-        if((compare = QString::compare(currentItem, "yes", Qt::CaseInsensitive)) == 0)
+    for(int i = 0; i < rows; i++)
+    {
+        int compare = 1;
+        if(( compare = QString::compare(ui->tableWidget->item(i, perscColumn)->text(), "yes", Qt::CaseInsensitive)) == 0)
             ui->tableWidget->selectRow(i);
     }
     ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+}
 
+void MedicinesForm::findClicked()
+{
+    searchDialog = new SearchMedicines(this);
+
+    searchDialog->show();
+
+    int searchByColumn;
+    QString phrase;
+
+    cleanSelection();
+
+    if(searchDialog->exec() == QDialog::Accepted)
+    {
+        QMap<QString, int> result = searchDialog->getResultMap();
+
+        searchByColumn = result.values().at(0);
+
+        //Since we do not search by each row we need to omit the 2 rows between
+        // name and note
+        if(searchByColumn == 1)
+            searchByColumn = 3;
+
+        phrase = result.keys().at(0);
+
+        ui->tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+
+        bool phraseFound = false;
+
+        for(int i = 0; i < ui->tableWidget->rowCount(); i++)
+        {
+            if(ui->tableWidget->item(i, searchByColumn)->text() == phrase)
+            {
+                phraseFound = true;
+                ui->tableWidget->selectRow(i);
+            }
+        }
+
+        ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+
+        if(!phraseFound)
+            QMessageBox::information(this, tr("Note"), tr("No phrase found matching criteria") );
+    }
+
+    delete searchDialog;
+}
+
+void MedicinesForm::cleanSelection()
+{
+    for(int i = 0; i < ui->tableWidget->rowCount(); i++)
+    {
+        for(int j = 0; j < ui->tableWidget->columnCount(); j++)
+        {
+            QModelIndex id = ui->tableWidget->model()->index(i, j, QModelIndex());
+            ui->tableWidget->selectionModel()->select(id, QItemSelectionModel::Deselect);
+        }
+    }
+}
+
+void MedicinesForm::displayImage()
+{
+    if(!ui->tableWidget->selectionModel()->hasSelection())
+        return;
+
+    int markedPharmacyRowIndex = ui->tableWidget->selectionModel()->selectedRows().at(0).row();
+    QString markedPharmacyName = ui->tableWidget->item(markedPharmacyRowIndex, 0)->text();
+
+    qDebug() << "name : " << markedPharmacyName;
+
+    QByteArray* arrayPicture = MedicinesHandler::getMedicinePicture(markedPharmacyName);
+
+    if(arrayPicture->isEmpty())
+        qDebug() << "empty pixmap";
+
+    QPixmap pixmap = QPixmap();//":/new/prefix1/no_picture.png");
+
+    pixmap.loadFromData(*arrayPicture);
+
+
+//    pixmap.scaledToHeight(300, Qt::SmoothTransformation);
+//    pixmap.scaledToWidth(400, Qt::SmoothTransformation);
+
+    medicineDialog = new DisplayMedicine(this);
+
+    medicineDialog->passPixmapToDisplay(pixmap);
+
+    medicineDialog->setModal(true);
+    medicineDialog->exec();
+
+    delete medicineDialog;
 }

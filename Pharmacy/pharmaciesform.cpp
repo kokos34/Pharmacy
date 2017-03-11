@@ -54,10 +54,21 @@ void PharmaciesForm::prepareTableView()
 void PharmaciesForm::on_moreInfo_clicked()
 {
     PharmaciesMoreInfo* infoProvider = new PharmaciesMoreInfo();
+    QItemSelectionModel* selectedRows = ui->tableWidget->selectionModel();
+
+    if(!selectedRows->hasSelection())
+    {
+        QMessageBox::information(this, tr("Error"), tr("No rows are selected!"));
+        return;
+    }
+
     infoProvider->setModal(true);
     infoProvider->passIndex(ui->tableWidget->selectionModel()->selectedRows().at(0).row());
     infoProvider->displayInfo();
     infoProvider->exec();
+
+    // This might cause a problem!
+    delete selectedRows;
 }
 
 void PharmaciesForm::on_pushButton_clicked()
@@ -102,6 +113,8 @@ void PharmaciesForm::sortPharmacies()
 
         ui->tableWidget->sortByColumn(sortByRow);
     }
+
+    delete sortDialog;
 }
 
 void PharmaciesForm::on_pushButton_2_clicked()

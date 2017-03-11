@@ -12,6 +12,7 @@ public:
     DatabaseHandler(const QString& path);
     // If database exists
     DatabaseHandler();
+    ~DatabaseHandler();
 
     void createTablePharmacies();
     void createTableMedicines();

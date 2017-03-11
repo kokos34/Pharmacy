@@ -15,6 +15,7 @@ public:
 private:
     void populateTable();
     bool openInsertFile(const QString& path);
+
     vector<QString> listOfInserts;
 };
 

@@ -38,7 +38,9 @@ private:
     Ui::PharmaciesForm *ui;
     SearchPharmacies* spDialog;
     SortPharmacies* sortDialog;
+
     bool isAndroid = true;
+
     void pushPharmaciesToTable();
     void prepareTableView();
 };

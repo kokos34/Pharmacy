@@ -1,5 +1,7 @@
 #include "medicineshandler.h"
 
+QByteArray* MedicinesHandler::picture = new QByteArray("");
+
 MedicinesHandler::MedicinesHandler()
 {
 
@@ -20,10 +22,9 @@ MedicinesHandler::MedicinesHandler(const QString& dbPath) : DatabaseHandler(dbPa
         qDebug() << "executed";
 
     createTableMedicines();
-
     populateTable();
+    loadImages();
 }
-
 
 void MedicinesHandler::populateTable()
 {
@@ -113,4 +114,52 @@ vector<vector<QString>> MedicinesHandler::getListOfMedicines()
         rowCounter++;
     }
     return listOfMedicines;
+}
+
+void MedicinesHandler::loadImages()
+{
+    qDebug() << "In insert section";
+
+    QByteArray inByteArray;
+    QBuffer inBuffer(&inByteArray);
+    QPixmap no_image(":/new/prefix1/no_picture.png");
+
+    inBuffer.open(QIODevice::WriteOnly);
+    no_image.save(&inBuffer, "PNG");
+
+
+    QSqlQuery query;
+    query.prepare("UPDATE medicines SET med_picture=:imageData");// WHERE id > 0");
+    query.bindValue(":imageData", inByteArray);
+
+    if(!query.exec())
+        qDebug() << "Failed to insert images into db";
+}
+
+QByteArray* MedicinesHandler::getMedicinePicture(QString medicineName)
+{
+    QSqlQuery query;
+
+    query.prepare("SELECT med_picture FROM medicines WHERE med_name=:name");
+    query.bindValue(":name", medicineName);
+
+    if(!query.exec())
+    {
+        qDebug() << "Could not display picture";
+        return picture;
+    }
+    else
+    {
+        query.first();
+
+        qDebug() << "query size = " << sqlSize(query);
+        qDebug() << "query.value(0) = " << query.value(1).toString();
+
+        picture = new QByteArray(query.value(0).toByteArray());
+
+        if(picture->isEmpty())
+            qDebug() << "byte array is empty";
+
+        return picture;
+    }
 }
