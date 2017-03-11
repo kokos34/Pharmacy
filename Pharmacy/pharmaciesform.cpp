@@ -100,7 +100,7 @@ void PharmaciesForm::sortPharmacies()
     {
         int sortByRow = sortDialog->getMarkedIndex();
 
-        ui->tableWidget->sortByColumn(sortByRow, Qt::AscendingOrder);
+        ui->tableWidget->sortByColumn(sortByRow);
     }
 }
 
@@ -121,7 +121,7 @@ void PharmaciesForm::on_markOpen_clicked()
 
     for(int i = 0; i < ui->tableWidget->rowCount(); i++)
     {
-        QString currentHours = ui->tableWidget->itemAt(QPoint(i, 2))->text();
+        QString currentHours = ui->tableWidget->item(i, 2)->text();
         qDebug() << currentHours;
 
         QString openingHour = "";
@@ -153,4 +153,6 @@ void PharmaciesForm::on_markOpen_clicked()
         else
             qDebug() << "Something went wrong with string-int conversion";
     }
+
+    ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 }

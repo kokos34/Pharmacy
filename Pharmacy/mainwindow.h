@@ -9,6 +9,8 @@
 
 #include "pharmacieshandler.h"
 #include "pharmaciesform.h"
+#include "medicines/medicineshandler.h"
+#include "medicines/medicinesform.h"
 
 #include <iostream>
 
@@ -29,14 +31,16 @@ protected:
 
 private slots:
     void pharmaciesButtonClicked();
+    void medicinesButtonClicked();
 
     void on_MainWindow_iconSizeChanged(const QSize &iconSize);
 
 private:
     Ui::MainWindow *ui;
     void substituteIconsIntoButtons();
-    QString pathToDB = "C:\\Users\\epiokok\\Pharmacy\\Pharmacy\\my_db.db";
-            //"/home/kokos/Documents/pharmacy/Pharmacy/my_db.db";
+    QString pathToDB = "/home/kokos/Documents/pharmacy/Pharmacy/my_db.db";
+    //"C:\\Users\\epiokok\\Pharmacy\\Pharmacy\\my_db.db";
+
     bool isDBInitialized = false;
 
      QLabel* readLabel;

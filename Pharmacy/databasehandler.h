@@ -15,6 +15,8 @@ public:
 
     void createTablePharmacies();
     void createTableMedicines();
+
+    static int sqlSize(QSqlQuery);
 protected:
     QSqlDatabase pharmacies_db;
 };

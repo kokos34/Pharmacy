@@ -4,5 +4,6 @@
         <file>read.png</file>
         <file>info.png</file>
         <file>insertstatements.txt</file>
+        <file>insertmedicines.txt</file>
     </qresource>
 </RCC>

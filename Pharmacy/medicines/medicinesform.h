@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "medicineshandler.h"
+
 namespace Ui {
 class MedicinesForm;
 }
@@ -17,6 +19,11 @@ public:
 
 private:
     Ui::MedicinesForm *ui;
+    void pushMedicinesToTable();
+    void prepareTableView();
+
+private slots:
+    void markPerscribed();
 };
 
 #endif // MEDICINESFORM_H

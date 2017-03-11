@@ -62,7 +62,7 @@ void MainWindow::substituteIconsIntoButtons()
     infoLabel->setStyleSheet("font-weight: bold; color: blue");
     infoLabel->setGeometry(285, 150, 315, 150);
 
-    //connect(infoButton, SIGNAL (released()), this, SLOT (handleButton()));
+    connect(infoButton, SIGNAL (released()), this, SLOT (medicinesButtonClicked()));
 }
 
 void MainWindow::pharmaciesButtonClicked()
@@ -82,6 +82,25 @@ void MainWindow::pharmaciesButtonClicked()
     PharmaciesForm phDialog;
     phDialog.setModal(true);
     phDialog.exec();
+}
+
+void MainWindow::medicinesButtonClicked()
+{
+    MedicinesHandler* medicinesDB;
+
+    if(!isDBInitialized)
+    {
+        medicinesDB = new MedicinesHandler(pathToDB);
+        isDBInitialized = true;
+    }
+    else
+    {
+        medicinesDB = new MedicinesHandler();
+    }
+
+    MedicinesForm medDialog;
+    medDialog.setModal(true);
+    medDialog.exec();
 }
 
 void MainWindow::resizeEvent(QResizeEvent* evt)

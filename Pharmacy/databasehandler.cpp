@@ -6,7 +6,7 @@ DatabaseHandler::DatabaseHandler(const QString& path)
     pharmacies_db.setDatabaseName(path);
 
     if(!pharmacies_db.open())
-        qDebug() << "Error connection to DB failed";
+        qDebug() << "Error: connection to DB failed";
     else
         qDebug() << "Successfully connected to database";
 }
@@ -48,4 +48,18 @@ void DatabaseHandler::createTableMedicines()
         qDebug() << "Successfully created medicines table";
     else
         qDebug() << "Failed to create medicines table";
+}
+
+int DatabaseHandler::sqlSize(QSqlQuery query)
+{
+    int initialPos = query.at();
+    // Very strange but for no records .at() returns -2
+    int pos = 0;
+    if (query.last())
+        pos = query.at() + 1;
+    else
+        pos = 0;
+    // Important to restore initial pos
+    query.seek(initialPos);
+    return pos;
 }
