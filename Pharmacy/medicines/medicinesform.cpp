@@ -132,8 +132,6 @@ void MedicinesForm::displayImage()
     int markedPharmacyRowIndex = ui->tableWidget->selectionModel()->selectedRows().at(0).row();
     QString markedPharmacyName = ui->tableWidget->item(markedPharmacyRowIndex, 0)->text();
 
-    qDebug() << "name : " << markedPharmacyName;
-
     QByteArray* arrayPicture = MedicinesHandler::getMedicinePicture(markedPharmacyName);
 
     if(arrayPicture->isEmpty())
@@ -142,10 +140,6 @@ void MedicinesForm::displayImage()
     QPixmap pixmap = QPixmap();//":/new/prefix1/no_picture.png");
 
     pixmap.loadFromData(*arrayPicture);
-
-
-//    pixmap.scaledToHeight(300, Qt::SmoothTransformation);
-//    pixmap.scaledToWidth(400, Qt::SmoothTransformation);
 
     medicineDialog = new DisplayMedicine(this);
 

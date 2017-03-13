@@ -36,8 +36,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     void substituteIconsIntoButtons();
-    QString pathToDB = "/home/kokos/Documents/pharmacy/Pharmacy/my_db.db";
-    //"C:\\Users\\epiokok\\Pharmacy\\Pharmacy\\my_db.db";
+    QString pathToDB = "C:\\Users\\epiokok\\Pharmacy\\Pharmacy\\my_db.db";
+    //"/home/kokos/Documents/pharmacy/Pharmacy/my_db.db";
+
 
     bool isDBInitialized = false;
 

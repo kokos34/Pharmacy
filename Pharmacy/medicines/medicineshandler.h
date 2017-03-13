@@ -22,6 +22,7 @@ private:
     void populateTable();
     bool openInsertFile();
     void loadImages();
+    void checkIfThereAreSpecificImages();
 
     vector<QString> listOfInserts;
     const QString& path = ":/new/prefix1/insertmedicines.txt";

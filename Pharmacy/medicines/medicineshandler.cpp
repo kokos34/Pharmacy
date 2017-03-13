@@ -118,8 +118,6 @@ vector<vector<QString>> MedicinesHandler::getListOfMedicines()
 
 void MedicinesHandler::loadImages()
 {
-    qDebug() << "In insert section";
-
     QByteArray inByteArray;
     QBuffer inBuffer(&inByteArray);
     QPixmap no_image(":/new/prefix1/no_picture.png");
@@ -128,12 +126,58 @@ void MedicinesHandler::loadImages()
     no_image.save(&inBuffer, "PNG");
 
 
+    // Firstly add all the no-medicine pictures
     QSqlQuery query;
     query.prepare("UPDATE medicines SET med_picture=:imageData");// WHERE id > 0");
     query.bindValue(":imageData", inByteArray);
 
     if(!query.exec())
         qDebug() << "Failed to insert images into db";
+
+    // Add the rest that is not accessible
+    checkIfThereAreSpecificImages();
+}
+void MedicinesHandler::checkIfThereAreSpecificImages()
+{
+    QSqlQuery query;
+    query.prepare("SELECT med_name FROM medicines where id>0");
+
+    if(query.exec())
+    {
+        query.first();
+        int querySize = sqlSize(query);
+
+        for(int i = 0; i < querySize; i++)
+        {
+            QString name = query.value(0).toString();
+            QString imageFilePath = ":/new/prefix1/" + name + ".png";
+            QFile file(imageFilePath);
+
+            if(file.exists() == true)
+            {
+                QByteArray inByteArray;
+                QBuffer inBuffer(&inByteArray);
+                QPixmap currentImage(imageFilePath);
+
+                inBuffer.open(QIODevice::WriteOnly);
+                currentImage.save(&inBuffer, "PNG");
+
+                QSqlQuery query;
+                query.prepare("UPDATE medicines SET med_picture=:imageData WHERE med_name=:name");
+                query.bindValue(":imageData", inByteArray);
+                query.bindValue(":name", name);
+
+                if(!query.exec())
+                    qDebug() << "Failed to update db";
+            }
+            query.next();
+        }
+    }
+    else
+    {
+        qDebug() << "Failed to select medicines from db";
+        return;
+    }
 }
 
 QByteArray* MedicinesHandler::getMedicinePicture(QString medicineName)
@@ -151,9 +195,6 @@ QByteArray* MedicinesHandler::getMedicinePicture(QString medicineName)
     else
     {
         query.first();
-
-        qDebug() << "query size = " << sqlSize(query);
-        qDebug() << "query.value(0) = " << query.value(1).toString();
 
         picture = new QByteArray(query.value(0).toByteArray());
 
