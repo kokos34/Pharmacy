@@ -46,7 +46,7 @@ void SearchPharmacies::on_pushButton_clicked()
         }
         else
         {
-            for(int column = 0; column < dbRecords[0].size(); column++)
+            for(unsigned int column = 0; column < dbRecords[0].size(); column++)
             {
                 int result = 1;
 
@@ -55,9 +55,4 @@ void SearchPharmacies::on_pushButton_clicked()
             }
         }
     }
-}
-
-void SearchPharmacies::on_comboBox_2_currentIndexChanged(int index)
-{
-
 }

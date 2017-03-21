@@ -18,7 +18,6 @@ public:
     ~SearchPharmacies();
 
 private slots:
-    void on_comboBox_2_currentIndexChanged(int index);
     void on_pushButton_clicked();
 
 public slots:
