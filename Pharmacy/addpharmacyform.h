@@ -17,8 +17,10 @@ public:
 
 private:
     Ui::AddPharmacyForm *ui;
-    bool getInsertElements();
+    QString getInsertElements();
     QList<QString> listOfElements;
+    QString constructInsert();
+    void addInsertToFile(QString);
 
     // Testing if elements inserted into line edits are correct
     bool isNameCorrect();

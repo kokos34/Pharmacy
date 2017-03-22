@@ -44,7 +44,6 @@ bool AddPharmacyForm::isAddressCorrect()
         listOfElements.append(address);
         return true;
     }
-
 }
 
 bool AddPharmacyForm::isOpeningCorrect()
@@ -142,9 +141,9 @@ void AddPharmacyForm::fillNote()
     listOfElements.append(note);
 }
 
-bool AddPharmacyForm::getInsertElements()
+QString AddPharmacyForm::getInsertElements()
 {
-    int indexOfIncorrectStatement = -1;
+    QString statement = "";
 
     for(int i = 0; i < 6; i++)
     {
@@ -152,23 +151,23 @@ bool AddPharmacyForm::getInsertElements()
         {
         case 0:
             if(!isNameCorrect())
-                indexOfIncorrectStatement = 0;
+                statement = "Name is incorrect!";
             break;
         case 1:
             if(!isAddressCorrect())
-                indexOfIncorrectStatement = 1;
+                statement = "Address is incorrect!";
             break;
         case 2:
             if(!isHoursCorrect())
-                indexOfIncorrectStatement = 2;
+                statement = "Hours are incorrect!";
             break;
         case 3:
             if(!isPhoneCorrect())
-                indexOfIncorrectStatement = 3;
+                statement = "Phone is incorrect!";
             break;
         case 4:
             if(!isMailCorrect())
-                indexOfIncorrectStatement = 4;
+                statement = "Mail is incorrect!";
             break;
         case 5:
             fillNote();
@@ -178,10 +177,39 @@ bool AddPharmacyForm::getInsertElements()
         }
     }
 
-    return indexOfIncorrectStatement;
+    return statement;
+}
+
+QString AddPharmacyForm::constructInsert()
+{
+    QString insert = "";
+
+    insert += "insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours',"
+              " 'ph_telephone', 'ph_email', 'ph_note') values('" +
+              listOfElements[0] + "', '" + listOfElements[1] + "', " +
+              listOfElements[2] + "', '" + listOfElements[3] + "', " +
+              listOfElements[4] + "', '" + listOfElements[5] + "');";
+
+    return insert;
+}
+
+void AddPharmacyForm::addInsertToFile(QString insert)
+{
+    QFile inserts("/new/prefix1/insertstatements.txt");
+
+    if(inserts.open(QIODevice::WriteOnly, QIODevice::Append))
+    {
+//        inserts.
+    }
 }
 
 void AddPharmacyForm::addPharmacy()
 {
+    QString errorStatement = getInsertElements();
+    QString insert;
 
+    if(errorStatement.isEmpty())
+    {
+        insert = constructInsert();
+    }
 }
