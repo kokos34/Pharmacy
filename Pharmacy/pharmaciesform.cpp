@@ -169,3 +169,8 @@ void PharmaciesForm::on_markOpen_clicked()
 
     ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 }
+
+void PharmaciesForm::addPharmacy()
+{
+
+}

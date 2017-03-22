@@ -33,6 +33,7 @@ private slots:
 public slots:
     void on_pushButton_clicked();
     void sortPharmacies();
+    void addPharmacy();
 
 private:
     Ui::PharmaciesForm *ui;
