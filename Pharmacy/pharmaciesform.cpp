@@ -12,6 +12,7 @@ PharmaciesForm::PharmaciesForm(QWidget *parent) :
 
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()));
     connect(ui->sortButton, SIGNAL(clicked()), this, SLOT(sortPharmacies()));
+    connect(ui->addPharmacyButton, SIGNAL(clicked()), this, SLOT(addPharmacy()));
 }
 
 PharmaciesForm::~PharmaciesForm()
@@ -172,5 +173,13 @@ void PharmaciesForm::on_markOpen_clicked()
 
 void PharmaciesForm::addPharmacy()
 {
+    addDialog = new AddPharmacyForm(this);
+    addDialog->show();
 
+    if(addDialog->exec() == QDialog::Accepted)
+    {
+
+    }
+
+    delete addDialog;
 }

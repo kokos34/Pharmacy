@@ -2,6 +2,10 @@
 #define ADDPHARMACYFORM_H
 
 #include <QDialog>
+#include <QFile>
+#include <QTextStream>
+#include <QMessageBox>
+#include <QDebug>
 
 namespace Ui {
 class AddPharmacyForm;

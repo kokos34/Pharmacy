@@ -6,6 +6,8 @@ AddPharmacyForm::AddPharmacyForm(QWidget *parent) :
     ui(new Ui::AddPharmacyForm)
 {
     ui->setupUi(this);
+
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(addPharmacy()));
 }
 
 AddPharmacyForm::~AddPharmacyForm()
@@ -33,9 +35,13 @@ bool AddPharmacyForm::isAddressCorrect()
     if(address.isEmpty())
         return false;
 
-    QString regEx = "^[a-zA-Z0-9\s,'-]*$";
+    QString regEx = "[A-Z][a-z]+\\s[1-9][0-9]*";
+//            "[A-Za-z0-9'\\.\\-\\s\\,]";
+//            "^[a-zA-Z0-9\\s,'-]*$";
 
-    bool correctFormat = address.contains(regEx);
+    QRegExp regexp(regEx);
+
+    bool correctFormat = address.contains(regexp);
 
     if(!correctFormat)
         return false;
@@ -68,21 +74,32 @@ bool AddPharmacyForm::isClosingCorrect()
 {
     bool isNumber;
 
-    int closingHours = ui->opensAt->text().toInt(&isNumber, 10);
+    int closingHours = ui->closesAt->text().toInt(&isNumber, 10);
 
     if(!isNumber)
+    {
+        qDebug() << "invalid conversion";
         return false;
+    }
 
     if(closingHours > 1 && closingHours <= 24)
     {
         if(openingHour == closingHours)
+        {
+            qDebug() << "same opening and closing";
+
             return false;
+        }
 
         closingHour = closingHours;
         return true;
     }
     else
+    {
+        qDebug() << "too big or too small number";
+
         return false;
+    }
 }
 
 bool AddPharmacyForm::isHoursCorrect()
@@ -91,6 +108,8 @@ bool AddPharmacyForm::isHoursCorrect()
 
     if(isCorrect)
         listOfElements.append(openingHour + "-" + closingHour);
+    else
+        qDebug() << "opening = " << isOpeningCorrect() << " closing = " << isClosingCorrect();
 
     return isCorrect;
 }
@@ -195,11 +214,25 @@ QString AddPharmacyForm::constructInsert()
 
 void AddPharmacyForm::addInsertToFile(QString insert)
 {
-    QFile inserts("/new/prefix1/insertstatements.txt");
+    QFile inserts(":/new/prefix1/insertstatements.txt");
 
-    if(inserts.open(QIODevice::WriteOnly, QIODevice::Append))
+    if(!inserts.exists())
+        qDebug() << "File does not exist";
+
+    if(inserts.open(QIODevice::Text | QIODevice::Append))
     {
-//        inserts.
+        qDebug() << "im here!";
+
+        QTextStream out(&inserts);
+        out << endl << insert;
+
+        inserts.close();
+    }
+    else
+    {
+        QMessageBox::information(this, tr("Error"), tr("Cannot add new pharmacy! "
+                                                       "Please contact program designer.") );
+        return;
     }
 }
 
@@ -211,5 +244,10 @@ void AddPharmacyForm::addPharmacy()
     if(errorStatement.isEmpty())
     {
         insert = constructInsert();
+        addInsertToFile(insert);
+
+        QMessageBox::information(this, tr("Success"), tr("Successfully added new pharmacy"));
     }
+    else
+        QMessageBox::information(this, tr("Error"), tr(errorStatement.toLatin1().data()));
 }

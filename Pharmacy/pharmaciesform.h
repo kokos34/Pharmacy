@@ -9,6 +9,7 @@
 #include "pharmaciesmoreinfo.h"
 #include "searchpharmacies.h"
 #include "sortpharmacies.h"
+#include "addpharmacyform.h"
 
 namespace Ui {
 class PharmaciesForm;
@@ -39,6 +40,7 @@ private:
     Ui::PharmaciesForm *ui;
     SearchPharmacies* spDialog;
     SortPharmacies* sortDialog;
+    AddPharmacyForm* addDialog;
 
     bool isAndroid = true;
 
