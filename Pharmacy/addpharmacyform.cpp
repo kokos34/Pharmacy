@@ -3,11 +3,14 @@
 
 AddPharmacyForm::AddPharmacyForm(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::AddPharmacyForm)
+    ui(new Ui::AddPharmacyForm),
+    kInsertsFile(":/new/prefix1"
+                 "/insertstatements.txt")
 {
     ui->setupUi(this);
 
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(addPharmacy()));
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(accept()));
 }
 
 AddPharmacyForm::~AddPharmacyForm()
@@ -205,35 +208,75 @@ QString AddPharmacyForm::constructInsert()
 
     insert += "insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours',"
               " 'ph_telephone', 'ph_email', 'ph_note') values('" +
-              listOfElements[0] + "', '" + listOfElements[1] + "', " +
-              listOfElements[2] + "', '" + listOfElements[3] + "', " +
+              listOfElements[0] + "', '" + listOfElements[1] + "', '" +
+              listOfElements[2] + "', '" + listOfElements[3] + "', '" +
               listOfElements[4] + "', '" + listOfElements[5] + "');";
 
     return insert;
 }
 
-void AddPharmacyForm::addInsertToFile(QString insert)
+QString AddPharmacyForm::toWritableName(const QString& qrcFileName)
 {
-    QFile inserts(":/new/prefix1/insertstatements.txt");
+   Q_ASSERT (qrcFileName.startsWith(":/"));
 
-    if(!inserts.exists())
-        qDebug() << "File does not exist";
+   QFileInfo info(qrcFileName);
+   return
+         QStandardPaths::writableLocation(QStandardPaths::DataLocation)
+         + info.path().mid(1) + '/' + info.fileName();
+}
 
-    if(inserts.open(QIODevice::Text | QIODevice::Append))
-    {
-        qDebug() << "im here!";
+QString AddPharmacyForm::toReadableName(const QString& qrcFileName)
+{
+   Q_ASSERT (qrcFileName.startsWith(":/"));
 
-        QTextStream out(&inserts);
-        out << endl << insert;
+   auto writable = toWritableName(qrcFileName);
+   return QFileInfo(writable).exists() ? writable : qrcFileName;
+}
 
-        inserts.close();
-    }
-    else
-    {
-        QMessageBox::information(this, tr("Error"), tr("Cannot add new pharmacy! "
-                                                       "Please contact program designer.") );
-        return;
-    }
+bool AddPharmacyForm::setupWritableFile(QSaveFile & dst, QIODevice::OpenMode mode = {})
+{
+   Q_ASSERT (dst.fileName().startsWith(":/"));
+   Q_ASSERT (mode == QIODevice::OpenMode{} || mode == QIODevice::Text);
+
+   QFile src(toReadableName(dst.fileName()));
+   dst.setFileName(toWritableName(dst.fileName()));
+
+   if (!src.open(QIODevice::ReadOnly | mode))
+      return false;
+
+   auto data = src.readAll();
+
+   src.close(); // Don't keep the  file descriptor tied up any longer.
+
+   QFileInfo dstInfo(dst.fileName());
+   if (!dstInfo.dir().exists() && !QDir().mkpath(dstInfo.path()))
+      return false;
+   if (!dst.open(QIODevice::WriteOnly | mode))
+      return false;
+   return dst.write(data) == data.size();
+}
+
+bool AddPharmacyForm::addInsertToFile(QString insert)
+{
+    QSaveFile file(kInsertsFile);
+
+    if (!setupWritableFile(file, QIODevice::Text))
+     return false;
+
+     QTextStream s(&file);
+     s << insert << '\n';
+
+    return file.commit();
+}
+
+QStringList AddPharmacyForm::readInserts()
+{
+   QFile file(toReadableName(kInsertsFile));
+
+   if (!file.open(QIODevice::ReadOnly))
+      return {};
+
+   return QString::fromLocal8Bit(file.readAll()).split('\n', QString::SkipEmptyParts);
 }
 
 void AddPharmacyForm::addPharmacy()
@@ -243,10 +286,17 @@ void AddPharmacyForm::addPharmacy()
 
     if(errorStatement.isEmpty())
     {
-        insert = constructInsert();
-        addInsertToFile(insert);
+        qDebug() << "Original Inserts:" << readInserts();
 
-        QMessageBox::information(this, tr("Success"), tr("Successfully added new pharmacy"));
+        insert = constructInsert();
+        auto status = addInsertToFile(insert);
+
+        qDebug() << "Current Inserts:" << readInserts();
+
+        if(!status)
+            QMessageBox::information(this, tr("Fail"), tr("Failed to add new pharmacy"));
+        else
+            QMessageBox::information(this, tr("Success"), tr("Successfully added new pharmacy"));
     }
     else
         QMessageBox::information(this, tr("Error"), tr(errorStatement.toLatin1().data()));

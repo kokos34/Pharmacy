@@ -6,6 +6,10 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QDebug>
+#include <QSaveFile>
+#include <QFileInfo>
+#include <QStandardPaths>
+#include <QDir>
 
 namespace Ui {
 class AddPharmacyForm;
@@ -24,7 +28,7 @@ private:
     QString getInsertElements();
     QList<QString> listOfElements;
     QString constructInsert();
-    void addInsertToFile(QString);
+    bool addInsertToFile(QString);
 
     // Testing if elements inserted into line edits are correct
     bool isNameCorrect();
@@ -36,9 +40,19 @@ private:
     bool isMailCorrect();
     void fillNote();
 
+    // Needed to change the file from resource system to local file
+    bool setupWritableFile(QSaveFile& dst, QIODevice::OpenMode);
+    QString toReadableName(const QString& qrcFileName);
+    QString toWritableName(const QString& qrcFileName);
+    QStringList readInserts();
+
+
     // Needed to concatenate if both end and open hours are correct
     int openingHour;
     int closingHour;
+
+    // File description
+    const char* kInsertsFile;
 
 public slots:
     void addPharmacy();

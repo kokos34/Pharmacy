@@ -74,7 +74,7 @@ bool PharmaciesHandler::openInsertFile(const QString& path)
     }
 
     insertFile->close();
-//    delete insertFile;
+    delete insertFile;
 
     return true;
 }
