@@ -258,15 +258,48 @@ bool AddPharmacyForm::setupWritableFile(QSaveFile & dst, QIODevice::OpenMode mod
 
 bool AddPharmacyForm::addInsertToFile(QString insert)
 {
-    QSaveFile file(kInsertsFile);
+    makeALocalCopyOfFile();
 
-    if (!setupWritableFile(file, QIODevice::Text))
-     return false;
+    insertsFile = new QFile(kInsertsFile);
 
-     QTextStream s(&file);
-     s << insert << '\n';
+    if(!insertsFile->exists())
+        qDebug() << "File does not exist!";
 
-    return file.commit();
+    if(insertsFile->isOpen())
+       qDebug() << "File is open";
+
+    if(!insertsFile->isWritable())
+        qDebug() << "File is not writeable";
+
+    if(insertsFile->open(QIODevice::ReadWrite | QIODevice::Text))
+    {
+        QTextStream s(insertsFile);
+        QString newInserts = currentInserts + "\n" + insert;
+        s << newInserts;
+
+        insertsFile->close();
+        delete insertsFile;
+
+        return true;
+    }
+    else
+        return false;
+}
+void AddPharmacyForm::makeALocalCopyOfFile()
+{
+    insertsFile = new QFile(kInsertsFile);
+
+    if(insertsFile->open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "opened file in readmode";
+        QTextStream in(insertsFile);
+        currentInserts = in.readAll();
+    }
+    else
+        qDebug() << "failed to open file in read mode";
+
+    insertsFile->close();
+    delete insertsFile;
 }
 
 QStringList AddPharmacyForm::readInserts()
@@ -286,17 +319,16 @@ void AddPharmacyForm::addPharmacy()
 
     if(errorStatement.isEmpty())
     {
-        qDebug() << "Original Inserts:" << readInserts();
-
         insert = constructInsert();
         auto status = addInsertToFile(insert);
-
-        qDebug() << "Current Inserts:" << readInserts();
 
         if(!status)
             QMessageBox::information(this, tr("Fail"), tr("Failed to add new pharmacy"));
         else
             QMessageBox::information(this, tr("Success"), tr("Successfully added new pharmacy"));
+
+        if(insertsFile->isOpen())
+            insertsFile->close();
     }
     else
         QMessageBox::information(this, tr("Error"), tr(errorStatement.toLatin1().data()));

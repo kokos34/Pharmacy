@@ -10,6 +10,7 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 #include <QDir>
+#include <QSettings>
 
 namespace Ui {
 class AddPharmacyForm;
@@ -29,6 +30,7 @@ private:
     QList<QString> listOfElements;
     QString constructInsert();
     bool addInsertToFile(QString);
+    QSettings settings;
 
     // Testing if elements inserted into line edits are correct
     bool isNameCorrect();
@@ -46,13 +48,16 @@ private:
     QString toWritableName(const QString& qrcFileName);
     QStringList readInserts();
 
+    void makeALocalCopyOfFile();
 
     // Needed to concatenate if both end and open hours are correct
     int openingHour;
     int closingHour;
 
     // File description
-    const char* kInsertsFile;
+    QString kInsertsFile = "C://Users//epiokok//Pharmacy//Pharmacy//pharmacy_inserts.txt";
+    QFile* insertsFile;
+    QString currentInserts;
 
 public slots:
     void addPharmacy();
