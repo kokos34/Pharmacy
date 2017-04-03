@@ -26,7 +26,7 @@ PharmaciesHandler::PharmaciesHandler(const QString& path) : DatabaseHandler(path
 
 void PharmaciesHandler::populateTable()
 {
-    if(!openInsertFile(":/new/prefix1/insertstatements.txt"))
+    if(!openInsertFile("C://Users//epiokok//Pharmacy//Pharmacy//pharmacy_inserts.txt"))
     {
         qDebug() << "Failed to populate table";
         return;

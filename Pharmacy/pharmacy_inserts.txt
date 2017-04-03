@@ -2,3 +2,4 @@ insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephon
 insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Pigulka', 'Rokicinska 341', '9-19', '6488290', '-', '-');
 insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Convellaria', 'Parcelacyjna 19', '8-19', '6506892', '-', 'pharmacy without recipe');
 insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Julianowska', 'Trenknera 27', '8-21', '6160202', '-', '-');
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Arnika', 'Motylowa 10', '20-8', '426591613', 'arnika@gmail.com', '');

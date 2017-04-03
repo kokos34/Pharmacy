@@ -42,12 +42,6 @@ private:
     bool isMailCorrect();
     void fillNote();
 
-    // Needed to change the file from resource system to local file
-    bool setupWritableFile(QSaveFile& dst, QIODevice::OpenMode);
-    QString toReadableName(const QString& qrcFileName);
-    QString toWritableName(const QString& qrcFileName);
-    QStringList readInserts();
-
     void makeALocalCopyOfFile();
 
     // Needed to concatenate if both end and open hours are correct
@@ -55,7 +49,8 @@ private:
     int closingHour;
 
     // File description
-    QString kInsertsFile = "C://Users//epiokok//Pharmacy//Pharmacy//pharmacy_inserts.txt";
+    QString kInsertsFile = "pharmacy_inserts.txt";
+            //"C://Users//epiokok//Pharmacy//Pharmacy//pharmacy_inserts.txt";
     QFile* insertsFile;
     QString currentInserts;
 

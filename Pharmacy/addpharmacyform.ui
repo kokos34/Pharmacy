@@ -18,7 +18,7 @@
     <rect>
      <x>40</x>
      <y>90</y>
-     <width>113</width>
+     <width>81</width>
      <height>20</height>
     </rect>
    </property>
@@ -185,6 +185,16 @@
    </property>
    <property name="text">
     <string>Add</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="stNumber">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>90</y>
+     <width>41</width>
+     <height>20</height>
+    </rect>
    </property>
   </widget>
  </widget>

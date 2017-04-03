@@ -3,9 +3,7 @@
 
 AddPharmacyForm::AddPharmacyForm(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::AddPharmacyForm),
-    kInsertsFile(":/new/prefix1"
-                 "/insertstatements.txt")
+    ui(new Ui::AddPharmacyForm)
 {
     ui->setupUi(this);
 
@@ -15,6 +13,7 @@ AddPharmacyForm::AddPharmacyForm(QWidget *parent) :
 
 AddPharmacyForm::~AddPharmacyForm()
 {
+    listOfElements.clear();
     delete ui;
 }
 
@@ -34,25 +33,22 @@ bool AddPharmacyForm::isNameCorrect()
 bool AddPharmacyForm::isAddressCorrect()
 {
     QString address = ui->address->text();
+    bool isNumber;
+    int streetNumber = ui->stNumber->text().toInt(&isNumber, 10);
+
+    if(!isNumber)
+        return false;
 
     if(address.isEmpty())
         return false;
 
-    QString regEx = "[A-Z][a-z]+\\s[1-9][0-9]*";
-//            "[A-Za-z0-9'\\.\\-\\s\\,]";
-//            "^[a-zA-Z0-9\\s,'-]*$";
-
-    QRegExp regexp(regEx);
-
-    bool correctFormat = address.contains(regexp);
-
-    if(!correctFormat)
+    if(!address.contains(QRegExp("[A-Z]+")))
         return false;
-    else
-    {
-        listOfElements.append(address);
-        return true;
-    }
+
+    listOfElements.append(address + " " + QString::number(streetNumber));
+
+    return true;
+
 }
 
 bool AddPharmacyForm::isOpeningCorrect()
@@ -100,7 +96,6 @@ bool AddPharmacyForm::isClosingCorrect()
     else
     {
         qDebug() << "too big or too small number";
-
         return false;
     }
 }
@@ -110,11 +105,17 @@ bool AddPharmacyForm::isHoursCorrect()
     bool isCorrect = isOpeningCorrect() && isClosingCorrect();
 
     if(isCorrect)
-        listOfElements.append(openingHour + "-" + closingHour);
-    else
-        qDebug() << "opening = " << isOpeningCorrect() << " closing = " << isClosingCorrect();
+    {
+        qDebug() << "opening= " << openingHour << " closing= " << closingHour;
 
-    return isCorrect;
+        listOfElements.append(QString::number(openingHour) + "-" + QString::number(closingHour));
+        return true;
+    }
+    else
+    {
+        qDebug() << "opening = " << isOpeningCorrect() << " closing = " << isClosingCorrect();
+        return false;
+    }
 }
 
 bool AddPharmacyForm::isPhoneCorrect()
@@ -140,7 +141,7 @@ bool AddPharmacyForm::isMailCorrect()
 {
     QString mail = ui->mail->text();
 
-    QRegExp mailREX("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
+    QRegExp mailREX("[A-Za-z0-9.-]+@{1}[\\w]{2,}\\.[\\w]{2,4}");
 
     mailREX.setCaseSensitivity(Qt::CaseInsensitive);
     mailREX.setPatternSyntax(QRegExp::RegExp);
@@ -215,55 +216,15 @@ QString AddPharmacyForm::constructInsert()
     return insert;
 }
 
-QString AddPharmacyForm::toWritableName(const QString& qrcFileName)
-{
-   Q_ASSERT (qrcFileName.startsWith(":/"));
-
-   QFileInfo info(qrcFileName);
-   return
-         QStandardPaths::writableLocation(QStandardPaths::DataLocation)
-         + info.path().mid(1) + '/' + info.fileName();
-}
-
-QString AddPharmacyForm::toReadableName(const QString& qrcFileName)
-{
-   Q_ASSERT (qrcFileName.startsWith(":/"));
-
-   auto writable = toWritableName(qrcFileName);
-   return QFileInfo(writable).exists() ? writable : qrcFileName;
-}
-
-bool AddPharmacyForm::setupWritableFile(QSaveFile & dst, QIODevice::OpenMode mode = {})
-{
-   Q_ASSERT (dst.fileName().startsWith(":/"));
-   Q_ASSERT (mode == QIODevice::OpenMode{} || mode == QIODevice::Text);
-
-   QFile src(toReadableName(dst.fileName()));
-   dst.setFileName(toWritableName(dst.fileName()));
-
-   if (!src.open(QIODevice::ReadOnly | mode))
-      return false;
-
-   auto data = src.readAll();
-
-   src.close(); // Don't keep the  file descriptor tied up any longer.
-
-   QFileInfo dstInfo(dst.fileName());
-   if (!dstInfo.dir().exists() && !QDir().mkpath(dstInfo.path()))
-      return false;
-   if (!dst.open(QIODevice::WriteOnly | mode))
-      return false;
-   return dst.write(data) == data.size();
-}
-
 bool AddPharmacyForm::addInsertToFile(QString insert)
 {
     makeALocalCopyOfFile();
 
-    insertsFile = new QFile(kInsertsFile);
+    insertsFile = new QFile();
+    insertsFile->setFileName("C://Users//epiokok//Pharmacy//Pharmacy//" + kInsertsFile);
 
     if(!insertsFile->exists())
-        qDebug() << "File does not exist!";
+        qDebug() << "File does not exist! " << insertsFile->fileName();
 
     if(insertsFile->isOpen())
        qDebug() << "File is open";
@@ -287,7 +248,8 @@ bool AddPharmacyForm::addInsertToFile(QString insert)
 }
 void AddPharmacyForm::makeALocalCopyOfFile()
 {
-    insertsFile = new QFile(kInsertsFile);
+    insertsFile = new QFile();
+    insertsFile->setFileName("C://Users//epiokok//Pharmacy//Pharmacy//" + kInsertsFile);
 
     if(insertsFile->open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -300,16 +262,6 @@ void AddPharmacyForm::makeALocalCopyOfFile()
 
     insertsFile->close();
     delete insertsFile;
-}
-
-QStringList AddPharmacyForm::readInserts()
-{
-   QFile file(toReadableName(kInsertsFile));
-
-   if (!file.open(QIODevice::ReadOnly))
-      return {};
-
-   return QString::fromLocal8Bit(file.readAll()).split('\n', QString::SkipEmptyParts);
 }
 
 void AddPharmacyForm::addPharmacy()
@@ -326,9 +278,6 @@ void AddPharmacyForm::addPharmacy()
             QMessageBox::information(this, tr("Fail"), tr("Failed to add new pharmacy"));
         else
             QMessageBox::information(this, tr("Success"), tr("Successfully added new pharmacy"));
-
-        if(insertsFile->isOpen())
-            insertsFile->close();
     }
     else
         QMessageBox::information(this, tr("Error"), tr(errorStatement.toLatin1().data()));
