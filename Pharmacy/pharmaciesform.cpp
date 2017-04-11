@@ -178,7 +178,14 @@ void PharmaciesForm::addPharmacy()
 
     if(addDialog->exec() == QDialog::Accepted)
     {
+        PharmaciesHandler::refreshPharmacies();
 
+        while (ui->tableWidget->rowCount() > 0)
+        {
+            ui->tableWidget->removeRow(0);
+        }
+
+        pushPharmaciesToTable();
     }
 
     delete addDialog;

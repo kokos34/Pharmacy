@@ -1,5 +1,7 @@
 #include "pharmacieshandler.h"
 
+vector<QString> PharmaciesHandler::listOfNewInserts = vector<QString>();
+
 PharmaciesHandler::PharmaciesHandler()
 {
 
@@ -108,4 +110,71 @@ vector<vector<QString>> PharmaciesHandler::getListOfPharmacies()
         rowCounter++;
     }
     return listOfPharmacies;
+}
+
+void PharmaciesHandler::refreshPharmacies()
+{
+    qDebug() << "Refreshing the table";
+
+    QSqlQuery query;
+    bool executed = query.exec("delete from pharmacies where id>0");
+
+    if(!executed)
+    {
+        qDebug() << "could not refresh pharmacies table: " << query.lastError().text();
+        return;
+    }
+
+    if(!populateTableAfterRefresh("C://Users//epiokok//Pharmacy//Pharmacy//pharmacy_inserts.txt"))
+    {
+        qDebug() << "Failed to populate table";
+        return;
+    }
+}
+
+bool PharmaciesHandler::populateTableAfterRefresh(const QString& path)
+{
+    QFile* insertFile = new QFile(path);
+
+    if (!insertFile->open(QFile::ReadOnly | QFile::Text))
+    {
+        qDebug() << "Failed to open insert file";
+        return false;
+    }
+
+    QTextStream input(insertFile);
+
+    int counter = 0;
+
+    while(!input.atEnd())
+    {
+        QString currentInsert = input.readLine();
+        listOfNewInserts.push_back(currentInsert);
+
+        counter++;
+    }
+
+    insertFile->close();
+
+    bool allInsertsSucceeded = true;
+
+    for(unsigned short i = 0; i < listOfNewInserts.size(); i++)
+    {
+        QSqlQuery query;
+        bool success = query.exec(listOfNewInserts[i]);
+
+        if(!success)
+            allInsertsSucceeded = false;
+    }
+
+    if(allInsertsSucceeded)
+    {
+        qDebug() << "Successfully re-populated pharmacies table";
+        return true;
+    }
+    else
+    {
+        qDebug() << "Failed to re-populate pharmacies table";
+        return false;
+    }
 }

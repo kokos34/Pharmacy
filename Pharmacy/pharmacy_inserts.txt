@@ -3,3 +3,8 @@ insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephon
 insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Convellaria', 'Parcelacyjna 19', '8-19', '6506892', '-', 'pharmacy without recipe');
 insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Julianowska', 'Trenknera 27', '8-21', '6160202', '-', '-');
 insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Arnika', 'Motylowa 10', '20-8', '426591613', 'arnika@gmail.com', '');
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Ruda Zegar', 'Rudzka 406', '8-15', '426843823', 'rudazegar@gmail.com', '');
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Kapsulka', 'Rzgowska 170', '8-20', '426464839', 'kapsulka@gmail.com', '');
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Panaceum', 'Przybyszewskiego 58', '8-19', '426846021', 'panaceum@gmail.com', '');
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Joga', 'Mochnackiego 1', '8-20', '426822498', 'joga@gmail.com', '');
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Amarylis', 'Rzgowska 281', '8-22', '426457314', 'amarylis@gmail.com', '');
