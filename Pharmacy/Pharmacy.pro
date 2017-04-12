@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     medicines/medicineshandler.cpp \
     medicines/searchmedicines.cpp \
     medicines/displaymedicine.cpp \
-    addpharmacyform.cpp
+    addpharmacyform.cpp \
+    deletepharmacy.cpp
 
 HEADERS  += mainwindow.h \
     databasehandler.h \
@@ -48,7 +49,8 @@ HEADERS  += mainwindow.h \
     medicines/medicineshandler.h \
     medicines/searchmedicines.h \
     medicines/displaymedicine.h \
-    addpharmacyform.h
+    addpharmacyform.h \
+    deletepharmacy.h
 
 FORMS    += \
     mainwindow.ui \

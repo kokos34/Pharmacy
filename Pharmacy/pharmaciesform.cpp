@@ -13,10 +13,12 @@ PharmaciesForm::PharmaciesForm(QWidget *parent) :
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(on_pushButton_clicked()));
     connect(ui->sortButton, SIGNAL(clicked()), this, SLOT(sortPharmacies()));
     connect(ui->addPharmacyButton, SIGNAL(clicked()), this, SLOT(addPharmacy()));
+    connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deletePharmacies()));
 }
 
 PharmaciesForm::~PharmaciesForm()
 {
+//    delete selectedRows;
     delete ui;
 }
 
@@ -55,7 +57,7 @@ void PharmaciesForm::prepareTableView()
 void PharmaciesForm::on_moreInfo_clicked()
 {
     PharmaciesMoreInfo* infoProvider = new PharmaciesMoreInfo();
-    QItemSelectionModel* selectedRows = ui->tableWidget->selectionModel();
+    selectedRows = ui->tableWidget->selectionModel();
 
     if(!selectedRows->hasSelection())
     {
@@ -69,7 +71,10 @@ void PharmaciesForm::on_moreInfo_clicked()
     infoProvider->exec();
 
     // This might cause a problem!
-    delete selectedRows;
+
+    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 void PharmaciesForm::on_pushButton_clicked()
@@ -189,4 +194,30 @@ void PharmaciesForm::addPharmacy()
     }
 
     delete addDialog;
+}
+
+void PharmaciesForm::deletePharmacies()
+{
+    const int row = ui->tableWidget->selectionModel()->selectedRows().at(0).row();
+    QString name = ui->tableWidget->item(row, 0)->text();
+
+    DeletePharmacy pharmacyDeleter(name);
+    bool success = pharmacyDeleter.updateFile();
+
+    if(success)
+    {
+        PharmaciesHandler::refreshPharmacies();
+
+        while (ui->tableWidget->rowCount() > 0)
+        {
+            ui->tableWidget->removeRow(0);
+        }
+
+        pushPharmaciesToTable();
+    }
+    else
+    {
+        QMessageBox::information(this, tr("Error"), tr("Could not find or remove the row!"));
+        return;
+    }
 }

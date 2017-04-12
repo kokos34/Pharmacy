@@ -10,6 +10,7 @@
 #include "searchpharmacies.h"
 #include "sortpharmacies.h"
 #include "addpharmacyform.h"
+#include "deletepharmacy.h"
 
 namespace Ui {
 class PharmaciesForm;
@@ -26,10 +27,9 @@ public:
 private slots:
     void on_moreInfo_clicked();
     void receivePhraseAndMarkRows(vector<int>);
-
     void on_pushButton_2_clicked();
-
     void on_markOpen_clicked();
+    void deletePharmacies();
 
 public slots:
     void on_pushButton_clicked();
@@ -43,6 +43,7 @@ private:
     AddPharmacyForm* addDialog;
 
     bool isAndroid = true;
+    QItemSelectionModel* selectedRows;
 
     void pushPharmaciesToTable();
     void prepareTableView();

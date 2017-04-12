@@ -134,6 +134,9 @@ void PharmaciesHandler::refreshPharmacies()
 
 bool PharmaciesHandler::populateTableAfterRefresh(const QString& path)
 {
+    if(!listOfNewInserts.empty())
+        listOfNewInserts.clear();
+
     QFile* insertFile = new QFile(path);
 
     if (!insertFile->open(QFile::ReadOnly | QFile::Text))
