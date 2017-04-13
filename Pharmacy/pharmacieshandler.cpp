@@ -28,6 +28,9 @@ PharmaciesHandler::PharmaciesHandler(const QString& path) : DatabaseHandler(path
 
 void PharmaciesHandler::populateTable()
 {
+    if(!listOfInserts.empty())
+        listOfInserts.clear();
+
     if(!openInsertFile("C://Users//epiokok//Pharmacy//Pharmacy//pharmacy_inserts.txt"))
     {
         qDebug() << "Failed to populate table";
@@ -134,7 +137,7 @@ void PharmaciesHandler::refreshPharmacies()
 
 bool PharmaciesHandler::populateTableAfterRefresh(const QString& path)
 {
-    if(!listOfNewInserts.empty())
+//    if(!listOfNewInserts.empty())
         listOfNewInserts.clear();
 
     QFile* insertFile = new QFile(path);

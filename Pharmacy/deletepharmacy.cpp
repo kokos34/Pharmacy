@@ -69,7 +69,7 @@ QStringList DeletePharmacy::convertToList()
 {
     QStringList insertsList;
 
-    insertsList << currentInserts.split("\n");
+    insertsList << currentInserts.split(";");
 
     QListIterator<QString> i(insertsList);
 
@@ -91,7 +91,7 @@ void DeletePharmacy::updateString(QStringList list)
 
     while(it.hasNext())
     {
-        QString current = it.next() + "\n";
+        QString current = it.next() + ";";
 
         updatedInserts += current;
     }
