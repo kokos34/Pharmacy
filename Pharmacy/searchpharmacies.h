@@ -22,11 +22,14 @@ private slots:
 
 public slots:
     vector<int> findThePhrase();
+    void getListOfPharmacies(vector<vector<QString>>);
 
 private:
     Ui::SearchPharmacies *ui;
     QString searchPhrase;
     vector<int> foundIndexes;
+
+    vector<vector<QString>> listOfPharmacies;
 };
 
 #endif // SEARCHPHARMACIES_H

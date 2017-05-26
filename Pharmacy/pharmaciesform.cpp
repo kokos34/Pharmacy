@@ -24,7 +24,7 @@ PharmaciesForm::~PharmaciesForm()
 
 void PharmaciesForm::pushPharmaciesToTable()
 {
-    vector<vector<QString>> listOfPharmacies = PharmaciesHandler::getListOfPharmacies();
+    listOfPharmacies = PharmaciesHandler::getListOfPharmacies();
 
     for(unsigned int row = 0; row < listOfPharmacies.size(); row++)
     {
@@ -65,6 +65,8 @@ void PharmaciesForm::on_moreInfo_clicked()
         return;
     }
 
+    infoProvider->passListOfPharmacies(listOfPharmacies);
+
     infoProvider->setModal(true);
     infoProvider->passIndex(ui->tableWidget->selectionModel()->selectedRows().at(0).row());
     infoProvider->displayInfo();
@@ -79,11 +81,11 @@ void PharmaciesForm::on_moreInfo_clicked()
 
 void PharmaciesForm::on_pushButton_clicked()
 {
-//    static int rowCounter = 0;
-
     spDialog = new SearchPharmacies(this);
 
     spDialog->show();
+
+    spDialog->getListOfPharmacies(listOfPharmacies);
 
     if(spDialog->exec() == QDialog::Accepted)
     {
@@ -100,7 +102,7 @@ void PharmaciesForm::on_pushButton_clicked()
         /*else
             rowCounter = 0;*/
     }
-    delete spDialog;//->close();
+    delete spDialog;
 }
 
 void PharmaciesForm::receivePhraseAndMarkRows(vector<int> result)
@@ -116,11 +118,25 @@ void PharmaciesForm::sortPharmacies()
     if(sortDialog->exec() == QDialog::Accepted)
     {
         int sortByRow = sortDialog->getMarkedIndex();
+        columnSorter = sortByRow;
 
-        ui->tableWidget->sortByColumn(sortByRow);
+        ui->tableWidget->sortByColumn(sortByRow, Qt::AscendingOrder);
+        sort(listOfPharmacies.begin(),
+             listOfPharmacies.end(),
+             PharmaciesForm::compareVectors);
     }
 
     delete sortDialog;
+}
+
+bool PharmaciesForm::compareVectors(vector<QString> a, vector<QString> b)
+{
+    int resultOfComparison = QString::compare(a[0], b[0], Qt::CaseInsensitive);
+
+    if(resultOfComparison < 0)
+        return true;
+    else
+        return false;
 }
 
 void PharmaciesForm::on_pushButton_2_clicked()

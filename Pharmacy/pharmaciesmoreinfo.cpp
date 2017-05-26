@@ -27,10 +27,13 @@ void PharmaciesMoreInfo::passIndex(int index)
     qDebug() << debugString;
 }
 
+void PharmaciesMoreInfo::passListOfPharmacies(vector<vector<QString> > currList)
+{
+    listOfPharmacies = currList;
+}
+
 void PharmaciesMoreInfo::displayInfo()
 {
-    vector<vector<QString>> listOfPharmacies = PharmaciesHandler::getListOfPharmacies();
-
     ui->tableWidget->insertRow(0);
 
     //0 - ph_name, 1 - ph_address, 2 - opening hours

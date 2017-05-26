@@ -29,16 +29,6 @@
    </item>
    <item>
     <property name="text">
-     <string>Address</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>Opening hours</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
      <string/>
     </property>
    </item>

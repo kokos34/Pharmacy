@@ -28,8 +28,8 @@ PharmaciesHandler::PharmaciesHandler(const QString& path) : DatabaseHandler(path
 
 void PharmaciesHandler::populateTable()
 {
-    if(!listOfInserts.empty())
-        listOfInserts.clear();
+    //if(!listOfInserts.empty())
+     //   listOfInserts.clear();
 
     if(!openInsertFile("C://Users//epiokok//Pharmacy//Pharmacy//pharmacy_inserts.txt"))
     {

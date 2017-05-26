@@ -12,6 +12,8 @@
 #include "addpharmacyform.h"
 #include "deletepharmacy.h"
 
+#include <algorithm>
+
 namespace Ui {
 class PharmaciesForm;
 }
@@ -44,9 +46,13 @@ private:
 
     bool isAndroid = true;
     QItemSelectionModel* selectedRows;
+    vector<vector<QString>> listOfPharmacies;
 
     void pushPharmaciesToTable();
     void prepareTableView();
+    void refreshTableIndexes();
+    static bool compareVectors(vector<QString>, vector<QString>);
+    int columnSorter;
 };
 
 #endif // PHARMACIESFORM_H

@@ -33,26 +33,29 @@ void SearchPharmacies::on_pushButton_clicked()
     int columnIndex = ui->comboBox->currentIndex();
     searchPhrase = ui->textEdit->toPlainText();
 
-    vector<vector<QString>> dbRecords = PharmaciesHandler::getListOfPharmacies();
-
-    for(unsigned int i = 0; i < dbRecords.size(); i++)
+    for(unsigned int i = 0; i < listOfPharmacies.size(); i++)
     {
         if(columnIndex!=0)
         {
             int result = 1;
 
-            if((result = QString::compare(dbRecords[i][columnIndex-1], searchPhrase, Qt::CaseInsensitive)) == 0)
+            if((result = QString::compare(listOfPharmacies[i][columnIndex-1], searchPhrase, Qt::CaseInsensitive)) == 0)
                 foundIndexes.push_back(i);
         }
         else
         {
-            for(unsigned int column = 0; column < dbRecords[0].size(); column++)
+            for(unsigned int column = 0; column < listOfPharmacies[0].size(); column++)
             {
                 int result = 1;
 
-                if((result = QString::compare(dbRecords[i][column], searchPhrase, Qt::CaseInsensitive)) == 0)
+                if((result = QString::compare(listOfPharmacies[i][column], searchPhrase, Qt::CaseInsensitive)) == 0)
                     foundIndexes.push_back(i);
             }
         }
     }
+}
+
+void SearchPharmacies::getListOfPharmacies(vector<vector<QString> > currList)
+{
+    listOfPharmacies = currList;
 }

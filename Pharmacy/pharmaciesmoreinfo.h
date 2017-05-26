@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include <vector>
+
 #include "pharmacieshandler.h"
 
 namespace Ui {
@@ -18,10 +20,12 @@ public:
     ~PharmaciesMoreInfo();
     void passIndex(int index);
     void displayInfo();
+    void passListOfPharmacies(vector<vector<QString>>);
 
 private:
     Ui::PharmaciesMoreInfo *ui;
     int rowIndexFromParent;
+    vector<vector<QString>> listOfPharmacies;
 };
 
 #endif // PHARMACIESMOREINFO_H
