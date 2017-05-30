@@ -131,7 +131,9 @@ void PharmaciesForm::sortPharmacies()
 
 bool PharmaciesForm::compareVectors(vector<QString> a, vector<QString> b)
 {
-    int resultOfComparison = QString::compare(a[0], b[0], Qt::CaseInsensitive);
+    int resultOfComparison = QString::compare(a[0],
+            b[0],
+            Qt::CaseInsensitive);
 
     if(resultOfComparison < 0)
         return true;
@@ -151,6 +153,8 @@ void PharmaciesForm::on_markOpen_clicked()
 
     if(currentHour == 0)
         currentHour = 24;
+
+    ui->tableWidget->clearSelection();
 
     ui->tableWidget->setSelectionMode(QAbstractItemView::MultiSelection);
 

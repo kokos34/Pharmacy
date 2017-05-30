@@ -10,6 +10,10 @@
 #include "medicineshandler.h"
 #include "searchmedicines.h"
 #include "displaymedicine.h"
+#include "sortmedicines.h"
+#include "showreceipt.h"
+
+#include <algorithm>
 
 namespace Ui {
 class MedicinesForm;
@@ -26,6 +30,8 @@ public:
 public slots:
     void findClicked();
     void displayImage();
+    void sort();
+    void showPerscription();
 
 private slots:
     void markPerscriptions();
@@ -34,10 +40,17 @@ private:
     Ui::MedicinesForm *ui;
     SearchMedicines* searchDialog;
     DisplayMedicine* medicineDialog;
+    SortMedicines* sortDialog;
+    ShowReceipt* receiptDisplayer;
+
+    vector<vector<QString>> listOfMedicines;
+    static bool compareVectors(vector<QString>, vector<QString>);
 
     void cleanSelection();
     void pushMedicinesToTable();
     void prepareTableView();
+
+    int indexToSortBy;
 };
 
 #endif // MEDICINESFORM_H

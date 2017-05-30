@@ -1,6 +1,8 @@
 #include "medicinesform.h"
 #include "ui_medicinesform.h"
 
+using namespace::std;
+
 MedicinesForm::MedicinesForm(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::MedicinesForm)
@@ -12,8 +14,9 @@ MedicinesForm::MedicinesForm(QWidget *parent) :
 
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(markPerscriptions()));
     connect(ui->searchButton, SIGNAL(clicked()), this, SLOT(findClicked()));
-
     connect(ui->displayImage, SIGNAL(clicked()), this, SLOT(displayImage()));
+    connect(ui->sortButton, SIGNAL(clicked()), this, SLOT(sort()));
+    connect(ui->showPerscription, SIGNAL(clicked()), this, SLOT(showPerscription()));
 }
 
 MedicinesForm::~MedicinesForm()
@@ -23,7 +26,7 @@ MedicinesForm::~MedicinesForm()
 
 void MedicinesForm::pushMedicinesToTable()
 {
-    vector<vector<QString>> listOfMedicines = MedicinesHandler::getListOfMedicines();
+    listOfMedicines = MedicinesHandler::getListOfMedicines();
 
     for(unsigned int row = 0; row < listOfMedicines.size(); row++)
     {
@@ -112,6 +115,34 @@ void MedicinesForm::findClicked()
     delete searchDialog;
 }
 
+void MedicinesForm::sort()
+{
+    sortDialog = new SortMedicines(this);
+    sortDialog->show();
+
+    if(sortDialog->exec() == QDialog::Accepted)
+    {
+        indexToSortBy = sortDialog->getMarkedIndex();
+        ui->tableWidget->sortByColumn(indexToSortBy, Qt::AscendingOrder);
+
+        std::sort(listOfMedicines.begin(),
+                listOfMedicines.end(),
+                MedicinesForm::compareVectors);
+    }
+
+    delete sortDialog;
+}
+
+bool MedicinesForm::compareVectors(vector<QString> a, vector<QString> b)
+{
+    int resultOfComparison = QString::compare(a[0], b[0], Qt::CaseInsensitive);
+
+    if(resultOfComparison < 0)
+        return true;
+    else
+        return false;
+}
+
 void MedicinesForm::cleanSelection()
 {
     for(int i = 0; i < ui->tableWidget->rowCount(); i++)
@@ -149,4 +180,22 @@ void MedicinesForm::displayImage()
     medicineDialog->exec();
 
     delete medicineDialog;
+}
+
+void MedicinesForm::showPerscription()
+{
+    if(!ui->tableWidget->currentIndex().isValid())
+        QMessageBox::information(this, tr("Error"), tr("Row was not selected!") );
+
+    int selectedRow = ui->tableWidget->selectionModel()->currentIndex().row();
+
+    QString name = ui->tableWidget->item(selectedRow, 0)->text();
+
+    qDebug() << "medname = " << name;
+
+    receiptDisplayer = new ShowReceipt(this);
+    receiptDisplayer->show();
+
+    receiptDisplayer->getMedicineName(name);
+    receiptDisplayer->showReceiptFile();
 }
