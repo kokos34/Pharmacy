@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     addpharmacyform.cpp \
     deletepharmacy.cpp \
     medicines/sortmedicines.cpp \
-    medicines/showreceipt.cpp
+    medicines/showreceipt.cpp \
+    medicines/addmedicine.cpp
 
 HEADERS  += mainwindow.h \
     databasehandler.h \
@@ -54,7 +55,8 @@ HEADERS  += mainwindow.h \
     addpharmacyform.h \
     deletepharmacy.h \
     medicines/sortmedicines.h \
-    medicines/showreceipt.h
+    medicines/showreceipt.h \
+    medicines/addmedicine.h
 
 FORMS    += \
     mainwindow.ui \
@@ -67,7 +69,8 @@ FORMS    += \
     medicines/displaymedicine.ui \
     addpharmacyform.ui \
     medicines/sortmedicines.ui \
-    medicines/showreceipt.ui
+    medicines/showreceipt.ui \
+    medicines/addmedicine.ui
 
 CONFIG += mobility
 MOBILITY = 

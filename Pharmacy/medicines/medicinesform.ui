@@ -110,7 +110,7 @@
   <widget class="QPushButton" name="showPerscription">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>130</x>
      <y>460</y>
      <width>121</width>
      <height>23</height>
@@ -118,6 +118,19 @@
    </property>
    <property name="text">
     <string>Show perscription</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addMedicine">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>460</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add medicine</string>
    </property>
   </widget>
  </widget>

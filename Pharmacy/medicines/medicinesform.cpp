@@ -17,6 +17,7 @@ MedicinesForm::MedicinesForm(QWidget *parent) :
     connect(ui->displayImage, SIGNAL(clicked()), this, SLOT(displayImage()));
     connect(ui->sortButton, SIGNAL(clicked()), this, SLOT(sort()));
     connect(ui->showPerscription, SIGNAL(clicked()), this, SLOT(showPerscription()));
+    connect(ui->addMedicine, SIGNAL(clicked()), this, SLOT(addMedicine()));
 }
 
 MedicinesForm::~MedicinesForm()
@@ -198,4 +199,24 @@ void MedicinesForm::showPerscription()
 
     receiptDisplayer->getMedicineName(name);
     receiptDisplayer->showReceiptFile();
+}
+
+void MedicinesForm::addMedicine()
+{
+    addMedicineDialog = new AddMedicine(this);
+    addMedicineDialog->show();
+
+    if(addMedicineDialog->exec() == QDialog::Accepted)
+    {
+        MedicinesHandler::refreshMedicines();
+
+        while (ui->tableWidget->rowCount() > 0)
+        {
+            ui->tableWidget->removeRow(0);
+        }
+
+        pushMedicinesToTable();
+    }
+
+    delete addMedicineDialog;
 }

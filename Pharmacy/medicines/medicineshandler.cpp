@@ -1,6 +1,7 @@
 #include "medicineshandler.h"
 
 QByteArray* MedicinesHandler::picture = new QByteArray("");
+vector<QString> MedicinesHandler::listOfNewInserts = vector<QString>();
 
 MedicinesHandler::MedicinesHandler()
 {
@@ -202,5 +203,74 @@ QByteArray* MedicinesHandler::getMedicinePicture(QString medicineName)
             qDebug() << "byte array is empty";
 
         return picture;
+    }
+}
+
+void MedicinesHandler::refreshMedicines()
+{
+    qDebug() << "Refreshing the table medicines";
+
+    QSqlQuery query;
+    bool executed = query.exec("delete from medicines where id>0");
+
+    if(!executed)
+    {
+        qDebug() << "could not refresh medicines table: " << query.lastError().text();
+        return;
+    }
+
+    if(!populateTableAfterRefresh("C://Users//epiokok//Pharmacy//Pharmacy//insertmedicines.txt"))
+    {
+        qDebug() << "Failed to populate table";
+        return;
+    }
+}
+
+bool MedicinesHandler::populateTableAfterRefresh(const QString& path)
+{
+    listOfNewInserts.clear();
+
+    QFile* insertFile = new QFile(path);
+
+    if (!insertFile->open(QFile::ReadOnly | QFile::Text))
+    {
+        qDebug() << "Failed to open insert file";
+        return false;
+    }
+
+    QTextStream input(insertFile);
+
+    int counter = 0;
+
+    while(!input.atEnd())
+    {
+        QString currentInsert = input.readLine();
+        listOfNewInserts.push_back(currentInsert);
+
+        counter++;
+    }
+
+    insertFile->close();
+
+    bool allInsertsSucceeded = true;
+
+    for(unsigned short i = 0; i < listOfNewInserts.size(); i++)
+    {
+        QSqlQuery query;
+        bool success = query.exec(listOfNewInserts[i]);
+
+        if(!success)
+            allInsertsSucceeded = false;
+    }
+
+    if(allInsertsSucceeded)
+    {
+        qDebug() << "Successfully re-populated medicines table";
+        return true;
+    }
+    else
+    {
+        qDebug() << "Failed to re-populate medicines table";
+        return false;
     }
 }

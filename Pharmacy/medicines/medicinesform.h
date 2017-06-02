@@ -12,6 +12,7 @@
 #include "displaymedicine.h"
 #include "sortmedicines.h"
 #include "showreceipt.h"
+#include "addmedicine.h"
 
 #include <algorithm>
 
@@ -32,6 +33,7 @@ public slots:
     void displayImage();
     void sort();
     void showPerscription();
+    void addMedicine();
 
 private slots:
     void markPerscriptions();
@@ -42,6 +44,7 @@ private:
     DisplayMedicine* medicineDialog;
     SortMedicines* sortDialog;
     ShowReceipt* receiptDisplayer;
+    AddMedicine* addMedicineDialog;
 
     vector<vector<QString>> listOfMedicines;
     static bool compareVectors(vector<QString>, vector<QString>);
