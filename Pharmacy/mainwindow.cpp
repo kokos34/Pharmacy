@@ -8,9 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->centralWidget->setAutoFillBackground(true);
-
-//    if(isAndroid)
-//        this->setWindowState(Qt::WindowFullScreen);
+    setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
 
     QPixmap bkgnd(":/new/prefix1/bkgrnd.png");
     bkgnd = bkgnd.scaled(this->size(),
@@ -53,7 +51,7 @@ void MainWindow::substituteIconsIntoButtons()
 
     // Display information about medicine
     infoButton = new QPushButton(this);
-    infoButton->setGeometry(QRect(QPoint(300, 300), QSize(45, 45)));
+    infoButton->setGeometry(QRect(QPoint(290, 300), QSize(45, 45)));
     infoButton->setIcon(QIcon(":/new/prefix1/info.png"));
     infoButton->setIconSize(QSize(45, 45));
 
