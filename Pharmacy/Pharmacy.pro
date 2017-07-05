@@ -28,18 +28,49 @@ SOURCES += main.cpp\
     databasehandler.cpp \
     pharmacieshandler.cpp \
     pharmaciesform.cpp \
-    pharmaciesmoreinfo.cpp
+    pharmaciesmoreinfo.cpp \
+    searchpharmacies.cpp \
+    medicines/medicinesform.cpp \
+    sortpharmacies.cpp \
+    medicines/medicineshandler.cpp \
+    medicines/searchmedicines.cpp \
+    medicines/displaymedicine.cpp \
+    addpharmacyform.cpp \
+    deletepharmacy.cpp \
+    medicines/sortmedicines.cpp \
+    medicines/showreceipt.cpp \
+    medicines/addmedicine.cpp
 
 HEADERS  += mainwindow.h \
     databasehandler.h \
     pharmacieshandler.h \
     pharmaciesform.h \
-    pharmaciesmoreinfo.h
+    pharmaciesmoreinfo.h \
+    searchpharmacies.h \
+    medicines/medicinesform.h \
+    sortpharmacies.h \
+    medicines/medicineshandler.h \
+    medicines/searchmedicines.h \
+    medicines/displaymedicine.h \
+    addpharmacyform.h \
+    deletepharmacy.h \
+    medicines/sortmedicines.h \
+    medicines/showreceipt.h \
+    medicines/addmedicine.h
 
 FORMS    += \
     mainwindow.ui \
     pharmaciesform.ui \
-    pharmaciesmoreinfo.ui
+    pharmaciesmoreinfo.ui \
+    searchpharmacies.ui \
+    medicines/medicinesform.ui \
+    sortpharmacies.ui \
+    medicines/searchmedicines.ui \
+    medicines/displaymedicine.ui \
+    addpharmacyform.ui \
+    medicines/sortmedicines.ui \
+    medicines/showreceipt.ui \
+    medicines/addmedicine.ui
 
 CONFIG += mobility
 MOBILITY = 

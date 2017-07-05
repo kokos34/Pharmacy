@@ -9,6 +9,8 @@
 
 #include "pharmacieshandler.h"
 #include "pharmaciesform.h"
+#include "medicines/medicineshandler.h"
+#include "medicines/medicinesform.h"
 
 #include <iostream>
 
@@ -28,25 +30,25 @@ protected:
     void resizeEvent(QResizeEvent* evt) override;
 
 private slots:
-    void on_readFromDBButton_clicked();
     void pharmaciesButtonClicked();
-
-    void on_MainWindow_iconSizeChanged(const QSize &iconSize);
+    void medicinesButtonClicked();
 
 private:
     Ui::MainWindow *ui;
     void substituteIconsIntoButtons();
     QString pathToDB = "C:\\Users\\epiokok\\Pharmacy\\Pharmacy\\my_db.db";
-            //"/home/kokos/Documents/pharmacy/Pharmacy/my_db.db";
+
     bool isDBInitialized = false;
 
-     QLabel* readLabel;
-     QLabel* infoLabel;
+    QLabel* readLabel;
+    QLabel* infoLabel;
 
-     QPushButton* readButton;
-     QPushButton* infoButton;
+    QPushButton* readButton;
+    QPushButton* infoButton;
 
-     bool isAndroid = true;
+    PharmaciesHandler* pharmaciesDB;
+
+    bool isAndroid = true;
 };
 
 #endif // MAINWINDOW_H

@@ -8,9 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->centralWidget->setAutoFillBackground(true);
-
-//    if(isAndroid)
-//        this->setWindowState(Qt::WindowFullScreen);
+    setWindowFlags(Qt::Dialog | Qt::MSWindowsFixedSizeDialogHint);
 
     QPixmap bkgnd(":/new/prefix1/bkgrnd.png");
     bkgnd = bkgnd.scaled(this->size(),
@@ -36,11 +34,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_readFromDBButton_clicked()
-{
-    std::cout << " clicked button " << std::endl;
-}
-
 void MainWindow::substituteIconsIntoButtons()
 {
     // Read from db button
@@ -58,7 +51,7 @@ void MainWindow::substituteIconsIntoButtons()
 
     // Display information about medicine
     infoButton = new QPushButton(this);
-    infoButton->setGeometry(QRect(QPoint(300, 300), QSize(45, 45)));
+    infoButton->setGeometry(QRect(QPoint(290, 300), QSize(45, 45)));
     infoButton->setIcon(QIcon(":/new/prefix1/info.png"));
     infoButton->setIconSize(QSize(45, 45));
 
@@ -67,13 +60,11 @@ void MainWindow::substituteIconsIntoButtons()
     infoLabel->setStyleSheet("font-weight: bold; color: blue");
     infoLabel->setGeometry(285, 150, 315, 150);
 
-    //connect(infoButton, SIGNAL (released()), this, SLOT (handleButton()));
+    connect(infoButton, SIGNAL (released()), this, SLOT (medicinesButtonClicked()));
 }
 
 void MainWindow::pharmaciesButtonClicked()
 {
-    PharmaciesHandler* pharmaciesDB;
-
     if(!isDBInitialized)
     {
         pharmaciesDB = new PharmaciesHandler(pathToDB);
@@ -89,9 +80,23 @@ void MainWindow::pharmaciesButtonClicked()
     phDialog.exec();
 }
 
-void MainWindow::on_MainWindow_iconSizeChanged(const QSize &iconSize)
+void MainWindow::medicinesButtonClicked()
 {
+    MedicinesHandler* medicinesDB;
 
+    if(!isDBInitialized)
+    {
+        medicinesDB = new MedicinesHandler(pathToDB);
+        isDBInitialized = true;
+    }
+    else
+    {
+        medicinesDB = new MedicinesHandler();
+    }
+
+    MedicinesForm medDialog;
+    medDialog.setModal(true);
+    medDialog.exec();
 }
 
 void MainWindow::resizeEvent(QResizeEvent* evt)

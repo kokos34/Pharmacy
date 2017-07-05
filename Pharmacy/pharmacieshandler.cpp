@@ -1,5 +1,7 @@
 #include "pharmacieshandler.h"
 
+vector<QString> PharmaciesHandler::listOfNewInserts = vector<QString>();
+
 PharmaciesHandler::PharmaciesHandler()
 {
 
@@ -26,7 +28,10 @@ PharmaciesHandler::PharmaciesHandler(const QString& path) : DatabaseHandler(path
 
 void PharmaciesHandler::populateTable()
 {
-    if(!openInsertFile(":/new/prefix1/insertstatements.txt"))
+    //if(!listOfInserts.empty())
+     //   listOfInserts.clear();
+
+    if(!openInsertFile("C://Users//epiokok//Pharmacy//Pharmacy//pharmacy_inserts.txt"))
     {
         qDebug() << "Failed to populate table";
         return;
@@ -61,8 +66,6 @@ bool PharmaciesHandler::openInsertFile(const QString& path)
         return false;
     }
 
-    qDebug() << "opened file";
-
     QTextStream input(insertFile);
 
     int counter = 0;
@@ -75,8 +78,7 @@ bool PharmaciesHandler::openInsertFile(const QString& path)
         counter++;
     }
 
-    qDebug() << counter;
-
+    insertFile->close();
     delete insertFile;
 
     return true;
@@ -113,16 +115,72 @@ vector<vector<QString>> PharmaciesHandler::getListOfPharmacies()
     return listOfPharmacies;
 }
 
-int PharmaciesHandler::sqlSize(QSqlQuery query)
+void PharmaciesHandler::refreshPharmacies()
 {
-    int initialPos = query.at();
-    // Very strange but for no records .at() returns -2
-    int pos = 0;
-    if (query.last())
-        pos = query.at() + 1;
+    qDebug() << "Refreshing the table";
+
+    QSqlQuery query;
+    bool executed = query.exec("delete from pharmacies where id>0");
+
+    if(!executed)
+    {
+        qDebug() << "could not refresh pharmacies table: " << query.lastError().text();
+        return;
+    }
+
+    if(!populateTableAfterRefresh("C://Users//epiokok//Pharmacy//Pharmacy//pharmacy_inserts.txt"))
+    {
+        qDebug() << "Failed to populate table";
+        return;
+    }
+}
+
+bool PharmaciesHandler::populateTableAfterRefresh(const QString& path)
+{
+//    if(!listOfNewInserts.empty())
+        listOfNewInserts.clear();
+
+    QFile* insertFile = new QFile(path);
+
+    if (!insertFile->open(QFile::ReadOnly | QFile::Text))
+    {
+        qDebug() << "Failed to open insert file";
+        return false;
+    }
+
+    QTextStream input(insertFile);
+
+    int counter = 0;
+
+    while(!input.atEnd())
+    {
+        QString currentInsert = input.readLine();
+        listOfNewInserts.push_back(currentInsert);
+
+        counter++;
+    }
+
+    insertFile->close();
+
+    bool allInsertsSucceeded = true;
+
+    for(unsigned short i = 0; i < listOfNewInserts.size(); i++)
+    {
+        QSqlQuery query;
+        bool success = query.exec(listOfNewInserts[i]);
+
+        if(!success)
+            allInsertsSucceeded = false;
+    }
+
+    if(allInsertsSucceeded)
+    {
+        qDebug() << "Successfully re-populated pharmacies table";
+        return true;
+    }
     else
-        pos = 0;
-    // Important to restore initial pos
-    query.seek(initialPos);
-    return pos;
+    {
+        qDebug() << "Failed to re-populate pharmacies table";
+        return false;
+    }
 }

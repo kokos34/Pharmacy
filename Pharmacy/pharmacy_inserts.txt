@@ -1,0 +1,6 @@
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Rosa', 'Tatrzanska 63', '8-24', '6400188', '-', 'apteka calodobowa');
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Pigulka', 'Rokicinska 341', '9-19', '6488290', '-', '-');
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Convellaria', 'Parcelacyjna 19', '8-19', '6506892', '-', 'pharmacy without recipe');
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Julianowska', 'Trenknera 27', '8-21', '6160202', '-', '-');
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Aglonema', 'Lecznicza 6', '8-20', '426825474', 'aglonema@gmail.com', '');
+insert into pharmacies('ph_name', 'ph_address', 'ph_opening_hours', 'ph_telephone', 'ph_email', 'ph_note') values('Arnika', 'Motylowa 10', '8-19', '426591416', 'arnika@gmail.com', '');

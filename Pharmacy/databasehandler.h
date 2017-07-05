@@ -12,9 +12,12 @@ public:
     DatabaseHandler(const QString& path);
     // If database exists
     DatabaseHandler();
+    ~DatabaseHandler();
 
     void createTablePharmacies();
     void createTableMedicines();
+
+    static int sqlSize(QSqlQuery);
 protected:
     QSqlDatabase pharmacies_db;
 };
